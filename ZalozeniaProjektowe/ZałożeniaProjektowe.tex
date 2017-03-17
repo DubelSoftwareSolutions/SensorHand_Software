@@ -1,0 +1,38 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[MeX]{polski}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\pagestyle{fancy}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{subfig}
+
+\begin{document}
+\LARGE\centering Założenia projektu Roboty Mobilne\\
+\large\centering Projekt realizowany w ramach kursu Roboty Mobilne 1 na Politechnice Wrocławskiej\\
+\vspace{5 mm}
+\normalsize\flushleft\textbf{Temat Projektu:} Rękawica sensoryczna\\
+\textbf{Autorzy:} Krzysztof Dąbek 218549, Dymitr Choroszczak 218627,\\Anna Postawka 218556\\
+\textbf{Kierunek:} Automatyka i Robotyka\\
+\textbf{Specjalność:} Robotyka (ARR)\\
+\textbf{Prowadzący:} dr inż. Andrzej Wołczowski\\
+\textbf{Kurs:} Roboty Mobilne 1\\
+\textbf{Termin zajęć:} pn TN 11:15, śr TN 14:30\\
+\vspace{5 mm}
+\large Główne założenia projektowe: \normalsize
+\begin{itemize}
+\item Stworzenie rękawicy z czujnikami ugięcia w trzech palcach oraz czujnikami nacisku na opuszkach
+\item Czujnik zgięcia dłoni na wewnętrznej stronie rękawicy
+\item Zamontowanie na opuszkach LEDów (np. RGB) wizualizujących odczyty z czujników nacisku
+\item Wykorzystanie płytki STM32F3Discovery do przetwarzania danych
+\item Użycie akcelerometru zawartego na płytce do określenia położenia dłoni względem pionu (przyśpieszenia grawitacyjnego)
+\item Bezprzewodowe przesyłanie danych do komputera za pomocą modułu Bluetooth HC-06
+\item Przewodowe przesyłanie danych do komputera za pomocą interfejsu USB
+\item Zewnętrzne zasilanie z akumulatora
+\end{itemize}
+Projekt zostanie połączony z innym realizowanym w ramach kursu Wizualizacja Danych Sensorycznych. Dane z sensorów rękawicy posłużą do stworzenia uproszczonego modelu dłoni w wizualizacji 3D.
+\end{document}
