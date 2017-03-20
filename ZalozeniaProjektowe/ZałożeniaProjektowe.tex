@@ -10,7 +10,6 @@
 \usepackage{enumerate}
 \usepackage{listings}
 \usepackage{subfig}
-
 \begin{document}
 \LARGE\centering Założenia projektu Roboty Mobilne\\
 \large\centering Projekt realizowany w ramach kursu Roboty Mobilne 1 na Politechnice Wrocławskiej\\
@@ -23,8 +22,6 @@
 \textbf{Kurs:} Roboty Mobilne 1\\
 \textbf{Termin zajęć:} pn TN 11:15, śr TN 14:30\\
 \vspace{5 mm}
-
-
 \section{Główne założenia projektowe: }\normalsize
 \begin{itemize}
 \item Stworzenie rękawicy z czujnikami ugięcia w trzech palcach oraz czujnikami nacisku na opuszkach
@@ -37,11 +34,15 @@
 \item Zewnętrzne zasilanie z akumulatora
 \end{itemize}
 Projekt zostanie połączony z innym realizowanym w ramach kursu Wizualizacja Danych Sensorycznych. Dane z sensorów rękawicy posłużą do stworzenia uproszczonego modelu dłoni w wizualizacji 3D.
-
-
+\subsection{Opis czujników}
+\begin{itemize}
+\item Na opuszkach palców zamontowane zostaną czujniki siły nacisku FSR-400. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
+\item Do wykrycia zgięcia stawów międzypaliczkowych bliższych oraz stawu międzypaliczkowego kciuka zastosowane zostaną czujniki ugięcia - flexsensory firmy Sparkfun. Zgięcie tych sensorów powoduje wzrost rezystancji.
+\item Gumowy przewód przewodzący prąd do pomiaru siły rozciągania firmy Adafruit wykorzystany zostanie do wykrycia zgięcia stawów śródręczno-paliczkowych dłoni. Rezystancja tego elementu wzrasta wraz z jego rozciąganiem.
+\item Powyższe elementy nie zapewniają bardzo precyzyjnych pomiarów, ale zostały wybrane ze względu na cenę i charakter projektu, w którym zostaną zastosowane.
+\end{itemize}
 \section{Harmonogram pracy}
 \begin{enumerate}
-
 \item (22.03.2017) Zakup elementów potrzebnych do konstrukcji 
 \item (30.03.2017) Nawiązanie łączności płytki z komputerem (USB/Bluetooth) 
 \item (13.04.2017) Zaprogramowanie odczytu danych z czujników (tensometrów, czujników nacisku oraz akcelerometru) 
@@ -50,8 +51,5 @@ Projekt zostanie połączony z innym realizowanym w ramach kursu Wizualizacja Da
 \item (25.05.2017) Przygotowanie gotowej aplikacji 
 \item (01.06.2017) Przeprowadzenie testów oraz wprowadzenie ewentualnych poprawek 
 \item (15.06.2017) Dokumentacja projektu 
-
 \end{enumerate}
-
-
 \end{document}
