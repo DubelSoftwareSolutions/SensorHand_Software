@@ -23,6 +23,4 @@ typedef struct s_measurements
 	uint16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
 } s_measurements;
 
-HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
-
 #endif /* MEASUREMENTSTRUCT_H_ */

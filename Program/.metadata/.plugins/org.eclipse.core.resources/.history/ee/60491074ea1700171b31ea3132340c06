@@ -33,14 +33,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
+#include "MeasurementStruct.h"
 #include "adc.h"
 #include "i2c.h"
 #include "usart.h"
 #include "usb.h"
 #include "gpio.h"
 
+
 /* USER CODE BEGIN Includes */
-#include "MeasurementStruct.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
