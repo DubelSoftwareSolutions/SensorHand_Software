@@ -135,13 +135,13 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements)
 		if(HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize)==HAL_ERROR)
 			return HAL_ERROR;
 	}
-	for(i=0;i<TENSION_SENSOR_COUNT;++i)
+	for(i=0;i<FLEX_SENSOR_COUNT;++i)
 	{
 		MessageSize=sprintf(OutputData,"%d\n\r",p_Measurements.TensionSensor[i]);
 		if(HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize)==HAL_ERROR)
 			return HAL_ERROR;
 	}
-	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
+	for(i=0;i<FLEX_SENSOR_COUNT;++i)
 	{
 		MessageSize=sprintf(OutputData,"%d\n\r",p_Measurements.Accelerometer[i]);
 		if(HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize)==HAL_ERROR)

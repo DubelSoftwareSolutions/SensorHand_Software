@@ -95,15 +95,11 @@ int main(void)
   Measurements.Accelerometer[2]=30;
 
   Measurements.FlexSensor[0]=10;
-  Measurements.FlexSensor[1]=20;
-  Measurements.FlexSensor[2]=30;
-  Measurements.FlexSensor[3]=40;
-  Measurements.FlexSensor[4]=50;
-  Measurements.FlexSensor[5]=60;
-
-  Measurements.TensionSensor[0]=10;
-  Measurements.TensionSensor[1]=10;
-  Measurements.TensionSensor[2]=10;
+  Measurements.FlexSensor[0]=20;
+  Measurements.FlexSensor[0]=30;
+  Measurements.FlexSensor[0]=40;
+  Measurements.FlexSensor[0]=50;
+  Measurements.FlexSensor[0]=60;
   /* USER CODE END 2 */
 
   /* Infinite loop */

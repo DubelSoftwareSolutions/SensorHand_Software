@@ -101,9 +101,7 @@ int main(void)
   Measurements.FlexSensor[4]=50;
   Measurements.FlexSensor[5]=60;
 
-  Measurements.TensionSensor[0]=10;
-  Measurements.TensionSensor[1]=10;
-  Measurements.TensionSensor[2]=10;
+  Measurements.TensionSensor=10;
   /* USER CODE END 2 */
 
   /* Infinite loop */
