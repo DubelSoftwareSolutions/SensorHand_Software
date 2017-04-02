@@ -57,7 +57,7 @@ extern void Error_Handler(void);
 void MX_UART4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

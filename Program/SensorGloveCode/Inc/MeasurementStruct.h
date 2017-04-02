@@ -8,11 +8,19 @@
 #ifndef MEASUREMENTSTRUCT_H_
 #define MEASUREMENTSTRUCT_H_
 
-typedef struct measurements
+#include "stm32f3xx_hal.h"
+#include "main.h"
+
+#define FLEX_SENSOR_COUNT 6
+#define TENSION_SENSOR_COUNT 3
+#define ACCELEROMETER_AXIS_COUNT 3
+#define SENSOR_COUNT (FLEX_SENSOR_COUNT+TENSION_SENSOR_COUNT+ACCELEROMETER_AXIS_COUNT)
+
+typedef struct s_measurements
 {
-	uint16_t FlexSensor[6];
-	uint16_t TensionSensor[3];
-	uint16_t Accelerometer[3];
-} measurements;
+	uint8_t FlexSensor[FLEX_SENSOR_COUNT];
+	uint8_t TensionSensor[TENSION_SENSOR_COUNT];
+	uint8_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
+} s_measurements;
 
 #endif /* MEASUREMENTSTRUCT_H_ */

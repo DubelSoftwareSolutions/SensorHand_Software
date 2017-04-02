@@ -33,12 +33,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_hal.h"
+#include "MeasurementStruct.h"
 #include "adc.h"
 #include "i2c.h"
 #include "usart.h"
 #include "usb.h"
 #include "gpio.h"
-#include "MeasurementStruct.h"
+
 
 /* USER CODE BEGIN Includes */
 
@@ -48,7 +49,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+volatile s_measurements Measurements;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -89,7 +90,16 @@ int main(void)
   MX_USB_PCD_Init();
 
   /* USER CODE BEGIN 2 */
+  Measurements.Accelerometer[0]=10;
+  Measurements.Accelerometer[1]=20;
+  Measurements.Accelerometer[2]=30;
 
+  Measurements.FlexSensor[0]=10;
+  Measurements.FlexSensor[0]=20;
+  Measurements.FlexSensor[0]=30;
+  Measurements.FlexSensor[0]=40;
+  Measurements.FlexSensor[0]=50;
+  Measurements.FlexSensor[0]=60;
   /* USER CODE END 2 */
 
   /* Infinite loop */
