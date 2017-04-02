@@ -38,7 +38,6 @@
 #include "usart.h"
 #include "usb.h"
 #include "gpio.h"
-#include "MeasurementStruct.h"
 
 /* USER CODE BEGIN Includes */
 
