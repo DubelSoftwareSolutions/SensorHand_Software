@@ -115,7 +115,7 @@
 #define I2C1_SDA_Accelerometer_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define TRANSMISION_TIMEOUT 1000
+
 /* USER CODE END Private defines */
 
 /**

@@ -15,7 +15,7 @@
 #define TENSION_SENSOR_COUNT 3
 #define ACCELEROMETER_AXIS_COUNT 3
 #define SENSOR_COUNT (FLEX_SENSOR_COUNT+TENSION_SENSOR_COUNT+ACCELEROMETER_AXIS_COUNT)
-
+#define TRANSMISION_TIMEOUT 1000
 
 typedef struct s_measurements
 {
@@ -23,5 +23,7 @@ typedef struct s_measurements
 	uint16_t TensionSensor[TENSION_SENSOR_COUNT];
 	uint16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
 } s_measurements;
+
+HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
 
 #endif /* MEASUREMENTSTRUCT_H_ */

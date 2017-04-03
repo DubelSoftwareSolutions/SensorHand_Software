@@ -33,6 +33,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include "MeasurementStruct.h"
 #include "usart.h"
 
 #include "gpio.h"
@@ -48,7 +49,7 @@ void MX_UART4_Init(void)
 {
 
   huart4.Instance = UART4;
-  huart4.Init.BaudRate = 9600;
+  huart4.Init.BaudRate = 115200;
   huart4.Init.WordLength = UART_WORDLENGTH_8B;
   huart4.Init.StopBits = UART_STOPBITS_1;
   huart4.Init.Parity = UART_PARITY_NONE;
@@ -123,7 +124,11 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-
+int _write(int file, char* ptr, int len)
+{
+	HAL_UART_Transmit(&huart4,ptr,len,TRANSMISION_TIMEOUT);
+	return len;
+}
 /* USER CODE END 1 */
 
 /**

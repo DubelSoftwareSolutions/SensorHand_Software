@@ -41,7 +41,6 @@
 
 /* USER CODE BEGIN Includes */
 #include "MeasurementStruct.h"
-#include "Transmission.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
