@@ -11,6 +11,9 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{subfig}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tabularx}
 \begin{document}
 \LARGE\centering Założenia projektu Roboty Mobilne\\
 \large\centering Projekt realizowany w ramach kursu Roboty Mobilne 1 na Politechnice Wrocławskiej\\
@@ -34,22 +37,89 @@
 \item Zewnętrzne zasilanie z akumulatora
 \end{itemize}
 Projekt zostanie połączony z innym realizowanym w ramach kursu Wizualizacja Danych Sensorycznych. Dane z sensorów rękawicy posłużą do stworzenia uproszczonego modelu dłoni w wizualizacji 3D.
-\subsection{Opis czujników}
+\section{Opis czujników}
 \begin{itemize}
-\item Na opuszkach palców zamontowane zostaną czujniki siły nacisku FSR-400. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
-\item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowane zostaną czujniki ugięcia - flexsensory firmy Sparkfun. Zgięcie tych sensorów powoduje wzrost rezystancji.
-\item Akcelerometr LSM303DLHC, znajdujący się na płytce Discovery zostanie użyty do określenia orientacji rękawicy względem wektora grawitacji.
+\item Na opuszkach palców zamontowane zostaną \textbf{czujniki siły nacisku FSR-400}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
+\item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowane zostaną \textbf{czujniki ugięcia -- flexsensory firmy Sparkfun}. Zgięcie tych sensorów powoduje wzrost rezystancji.
+\item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery zostanie użyty do określenia orientacji rękawicy względem wektora grawitacji.
 \end{itemize}
+%\subsection{Parametry}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{./fsr-400.jpg}
+\caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Zakres & 0,2--20 N \\
+\hline
+Masa & 0,15 g \\ 
+\hline
+Wymiary zewnętrzne & 7,6 x 7,6 x 0,4 mm \\
+\hline
+\end{tabularx}
+\caption{Czujnik siły nacisku FSR-400}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Min. wartość rezystancji & 25 k$\Omega$ \\
+\hline
+Zakres rezystancji podczas zginania & 45--125 k$\Omega$ \\
+\hline
+Dł. całkowita & 73,66 mm \\
+\hline
+Dł. użyteczna czujnika & 55,37 mm \\ 
+\hline
+Szerokość & 6,35 mm \\
+\hline
+\end{tabularx}
+\caption{Czujnik ugięcia Flex Sensor 2.2"}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Napięcie pracy & 2,2--3,6 V \\
+\hline
+Interfejs komunikacyjny & I2C \\
+\hline
+Rozdzielczość & 16 bitów \\
+\hline
+Regulowany zakres akcelerometru &  $\pm$2g, $\pm$4g, $\pm$8g, $\pm$16g \\ 
+\hline
+Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\ 
+\hline
+Wymiary płytki & 37 x 15 mm \\
+\hline
+\end{tabularx}
+\caption{LSM303DLHC -- 3-osiowy akcelerometr i magnetometr I2C}
+\end{table}
+
+
 \section{Harmonogram pracy}
 \begin{enumerate}
 \item (22.03.2017) Zakup elementów potrzebnych do konstrukcji \\(Krzysztof Dąbek)
 \item (30.03.2017) Nawiązanie łączności płytki z komputerem (USB/Bluetooth) \\(Krzysztof Dąbek, Dymitr Choroszczak)
-\item (13.04.2017) Zaprogramowanie odczytu danych z czujników (tensometrów, czujników nacisku oraz akcelerometru) \\(Ania Postawka, Krzysztof Dąbek, Dymitr Choroszczak) 
-\item (27.04.2017) Montaż czujników oraz płytki na rękawicy \\(Ania Postawka)
+\item (13.04.2017) Zaprogramowanie odczytu danych z czujników (tensometrów, czujników nacisku oraz akcelerometru) \\(Anna Postawka, Krzysztof Dąbek, Dymitr Choroszczak) 
+\item (27.04.2017) Montaż czujników oraz płytki na rękawicy \\(Anna Postawka)
 \item (11.05.2017) Oprogramowanie wstępnego przetwarzania danych przez płytkę \\(Dymitr Choroszczak) 
-\item (25.05.2017) Przygotowanie gotowej aplikacji \\(Ania Postawka, Krzysztof Dąbek, Dymitr Choroszczak)
-\item (01.06.2017) Przeprowadzenie testów oraz wprowadzenie ewentualnych poprawek \\(Ania postawka, Krzysztof Dąbek)
+\item (25.05.2017) Przygotowanie gotowej aplikacji \\(Anna Postawka, Krzysztof Dąbek, Dymitr Choroszczak)
+\item (01.06.2017) Przeprowadzenie testów oraz wprowadzenie ewentualnych poprawek \\(Anna Postawka, Krzysztof Dąbek)
 \item (15.06.2017) Dokumentacja projektu \\(Dymitr Choroszczak)
+\end{enumerate}
 
 \section{Schematy}
 \begin{figure}[!htb]
@@ -58,8 +128,12 @@ Projekt zostanie połączony z innym realizowanym w ramach kursu Wizualizacja Da
 \end{figure}
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.75\textwidth]{./pinout.png}
+\includegraphics[width=0.6\textwidth]{./pinout.png}
 \caption{Pinout dla Discovery F3}
 \end{figure}
-\end{enumerate}
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{./rekawica.jpg}
+\caption{Rozmieszczenie czujników na rękawicy}
+\end{figure}
 \end{document}
