@@ -24,4 +24,11 @@ typedef struct s_measurements
 	uint16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
 } s_measurements;
 
+typedef struct s_AggregatedMeasurements
+{
+	float FlexSensor[FLEX_SENSOR_COUNT];
+	float TensionSensor[TENSION_SENSOR_COUNT];
+	float Accelerometer[ACCELEROMETER_AXIS_COUNT];
+} s_AggregatedMeasurements;
+
 #endif /* MEASUREMENTSTRUCT_H_ */

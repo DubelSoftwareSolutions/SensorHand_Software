@@ -44,6 +44,7 @@
 /* USER CODE BEGIN Includes */
 #include "MeasurementStruct.h"
 #include "Measurements.h"
+#include "DataProcessing.h"
 #include "Transmission.h"
 /* USER CODE END Includes */
 

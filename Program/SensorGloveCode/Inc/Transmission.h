@@ -18,8 +18,7 @@ typedef enum DeviceType_t{BluetoothDevice, USBDevice} DeviceType_t;
 #define BLUETOOTH_FREQUENCY 20 //Hz
 #define UART_SERIAL_FREQUENCY 280 //Hz
 #define USB_FREQUENCY 1000 //Hz
-
-const DeviceType_t g_DefaultTransmissionDevice = BluetoothDevice;
+#define DEFAULT_TRANSMISSION_DEVICE BluetoothDevice
 
 volatile uint8_t g_TransmissionReadyFlag;
 volatile DeviceType_t g_TransmissionDevice;

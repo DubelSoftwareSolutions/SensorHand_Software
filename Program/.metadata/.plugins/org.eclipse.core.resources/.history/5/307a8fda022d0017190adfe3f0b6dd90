@@ -1,0 +1,16 @@
+/*
+ * DataProcessing.h
+ *
+ *  Created on: 29.04.2017
+ *      Author: Krzysztof
+ */
+
+#ifndef DATAPROCESSING_H_
+#define DATAPROCESSING_H_
+
+#include "stm32f3xx_hal.h"
+#include "main.h"
+
+s_measurements
+
+#endif /* DATAPROCESSING_H_ */
