@@ -15,8 +15,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim == &htim6)
 	{
-		g_TransmissionReadyFlag=1;
-		TransmitMeasurementsBluetooth();
+		if (g_Tim6iterator == g_Tim6postscaler)
+		{
+			g_TransmissionReadyFlag = 1;
+			switch(g_TransmissionDevice)
+			{
+			case BluetoothDevice:
+				TransmitMeasurementsBluetooth();
+				break;
+			case USBDevice:
+				TransmitMeasurementsUSB();
+				break;
+			}
+			g_Tim6iterator=0;
+		}
+		else
+			++g_Tim6iterator;
 	}
 }
 
@@ -26,9 +40,39 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 		g_TransmissionReadyFlag=1;
 }
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin == B1_Pin)
+		switch(g_TransmissionDevice)
+		{
+		case BluetoothDevice:
+			g_TransmissionDevice = USBDevice;
+			break;
+		case USBDevice:
+			g_TransmissionDevice = BluetoothDevice;
+			break;
+		}
+}
+
+void ConfigureTransmissionFrequency()
+{
+	uint32_t tim6Frequency = TIMER_CLOCK_FREQUENCY/((htim6.Init.Period+1)*(htim6.Init.Prescaler+1));
+	switch(g_TransmissionDevice)
+	{
+	case BluetoothDevice:
+		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
+		break;
+	case USBDevice:
+		g_Tim6postscaler = tim6Frequency / USB_FREQUENCY;
+		break;
+	}
+}
+
 HAL_StatusTypeDef StartTransmission()
 {
-	HAL_TIM_Base_Start_IT(&htim6);
+	g_TransmissionDevice = g_DefaultTransmissionDevice;
+	ConfigureTransmissionFrequency();
+	return HAL_TIM_Base_Start_IT(&htim6);
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
@@ -104,3 +148,8 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	return HAL_OK;
 }
 
+HAL_StatusTypeDef TransmitMeasurementsUSB()
+{
+	//TODO
+	return HAL_ERROR;
+}

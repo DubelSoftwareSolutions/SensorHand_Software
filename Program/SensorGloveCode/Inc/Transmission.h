@@ -11,10 +11,22 @@
 #include "stm32f3xx_hal.h"
 #include "main.h"
 
+typedef enum DeviceType_t{BluetoothDevice, USBDevice} DeviceType_t;
+
 #define TRANSMISION_TIMEOUT 1000
+#define TIMER_CLOCK_FREQUENCY 72000000
+#define BLUETOOTH_FREQUENCY 20 //Hz
+#define UART_SERIAL_FREQUENCY 280 //Hz
+#define USB_FREQUENCY 1000 //Hz
+
+const DeviceType_t g_DefaultTransmissionDevice = BluetoothDevice;
 
 volatile uint8_t g_TransmissionReadyFlag;
+volatile DeviceType_t g_TransmissionDevice;
+volatile uint32_t g_Tim6postscaler;
+volatile uint32_t g_Tim6iterator;
 
+void ConfigureTransmissionFrequency();
 HAL_StatusTypeDef StartTransmission();
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth();
@@ -22,5 +34,6 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth();
 
 HAL_StatusTypeDef TransmitMeasurementsBluetooth();
+HAL_StatusTypeDef TransmitMeasurementsUSB();
 
 #endif /* TRANSMISSION_H_ */
