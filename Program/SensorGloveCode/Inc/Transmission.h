@@ -11,6 +11,8 @@
 #include "stm32f3xx_hal.h"
 #include "main.h"
 
+#define TRANSMISION_TIMEOUT 1000
+
 HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
 
 #endif /* TRANSMISSION_H_ */

@@ -40,6 +40,7 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+#define I2C_ClockSpeed_kHz 400
 
 #define DRDY_Accelerometer_Pin GPIO_PIN_2
 #define DRDY_Accelerometer_GPIO_Port GPIOE
@@ -53,6 +54,14 @@
 #define OSC_OUT_GPIO_Port GPIOF
 #define FlexSensor6_Pin GPIO_PIN_0
 #define FlexSensor6_GPIO_Port GPIOC
+#define FlexSensor7_Pin GPIO_PIN_1
+#define FlexSensor7_GPIO_Port GPIOC
+#define FlexSensor8_Pin GPIO_PIN_2
+#define FlexSensor8_GPIO_Port GPIOC
+#define FlexSensor9_Pin GPIO_PIN_3
+#define FlexSensor9_GPIO_Port GPIOC
+#define FlexSensor10_Pin GPIO_PIN_2
+#define FlexSensor10_GPIO_Port GPIOF
 #define B1_Pin GPIO_PIN_0
 #define B1_GPIO_Port GPIOA
 #define RubberWire1_Pin GPIO_PIN_1
@@ -97,6 +106,10 @@
 #define TensionSensor2_GPIO_Port GPIOD
 #define TensionSensor3_Pin GPIO_PIN_12
 #define TensionSensor3_GPIO_Port GPIOD
+#define TensionSensor4_Pin GPIO_PIN_13
+#define TensionSensor4_GPIO_Port GPIOD
+#define TensionSensor5_Pin GPIO_PIN_14
+#define TensionSensor5_GPIO_Port GPIOD
 #define USB_DM_Pin GPIO_PIN_11
 #define USB_DM_GPIO_Port GPIOA
 #define USB_DP_Pin GPIO_PIN_12
@@ -115,7 +128,7 @@
 #define I2C1_SDA_Accelerometer_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define TRANSMISION_TIMEOUT 1000
+
 /* USER CODE END Private defines */
 
 /**

@@ -46,7 +46,12 @@
 /* Exported functions ------------------------------------------------------- */
 
 void SysTick_Handler(void);
+void DMA1_Channel1_IRQHandler(void);
+void ADC1_2_IRQHandler(void);
+void ADC3_IRQHandler(void);
 void UART4_IRQHandler(void);
+void DMA2_Channel1_IRQHandler(void);
+void DMA2_Channel5_IRQHandler(void);
 
 #ifdef __cplusplus
 }
