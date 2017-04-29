@@ -94,7 +94,8 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-
+  StartMeasurementsDMA();
+  StartTransmission();
   /* USER CODE END 2 */
 
   /* Infinite loop */

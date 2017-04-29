@@ -13,5 +13,7 @@
 
 volatile s_measurements g_Measurements;
 
+HAL_StatusTypeDef StartMeasurementsDMA();
+HAL_StatusTypeDef StopMeasurementsDMA();
 
 #endif /* MEASUREMENTS_H_ */

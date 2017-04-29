@@ -8,6 +8,7 @@
 #include "usart.h"
 #include "tim.h"
 #include "MeasurementStruct.h"
+#include "Measurements.h"
 #include "Transmission.h"
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -23,7 +24,11 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 {
 	if(huart == &huart4)
 		g_TransmissionReadyFlag=1;
+}
 
+HAL_StatusTypeDef StartTransmission()
+{
+	HAL_TIM_Base_Start_IT(&htim6);
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
@@ -55,7 +60,7 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth()
 		MessageSize=sprintf(OutputData,"%d ",g_Measurements.TensionSensor[i]);
 		while(!g_TransmissionReadyFlag);
 		g_TransmissionReadyFlag =0;
-		TransmisionStatus=HAL_UART_Transmit_IT()(&huart4,OutputData,MessageSize);
+		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
 	}
@@ -82,6 +87,9 @@ HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth()
 
 HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 {
+	uint8_t OutputData[2];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
 	TransmitFlexMeasurementsBluetooth();
 	TransmitTensionMeasurementsBluetooth();
 	TransmitAccelerometerMeasurementsBluetooth();

@@ -15,10 +15,12 @@
 
 volatile uint8_t g_TransmissionReadyFlag;
 
-HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
+HAL_StatusTypeDef StartTransmission();
+
+HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth();
 
-HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
+HAL_StatusTypeDef TransmitMeasurementsBluetooth();
 
 #endif /* TRANSMISSION_H_ */
