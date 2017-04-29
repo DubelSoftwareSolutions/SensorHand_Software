@@ -43,6 +43,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "MeasurementStruct.h"
+#include "Measurements.h"
 #include "Transmission.h"
 /* USER CODE END Includes */
 
@@ -50,7 +51,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-volatile s_measurements Measurements;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,23 +94,7 @@ int main(void)
   MX_TIM6_Init();
 
   /* USER CODE BEGIN 2 */
-  Measurements.Accelerometer[0]=1000;
-  Measurements.Accelerometer[1]=2000;
-  Measurements.Accelerometer[2]=3000;
 
-  Measurements.FlexSensor[0]=1000;
-  Measurements.FlexSensor[1]=2000;
-  Measurements.FlexSensor[2]=3000;
-  Measurements.FlexSensor[3]=4000;
-  Measurements.FlexSensor[4]=500;
-  Measurements.FlexSensor[5]=600;
-
-  Measurements.TensionSensor[0]=3000;
-  Measurements.TensionSensor[1]=2000;
-  Measurements.TensionSensor[2]=1000;
-
-  if(TransmitMeasurementsBluetooth(Measurements)==HAL_ERROR)
-	  HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */

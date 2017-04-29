@@ -13,6 +13,12 @@
 
 #define TRANSMISION_TIMEOUT 1000
 
+volatile uint8_t g_TransmissionReadyFlag;
+
+HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
+HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();
+HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth();
+
 HAL_StatusTypeDef TransmitMeasurementsBluetooth(s_measurements p_Measurements);
 
 #endif /* TRANSMISSION_H_ */
