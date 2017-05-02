@@ -61,13 +61,13 @@ void ConfigureTransmissionFrequency()
 	switch(g_TransmissionDevice)
 	{
 	case BluetoothDevice:
-		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
+		g_Tim6postscaler = BLUETOOTH_FREQUENCY / tim6Frequency;
 		break;
 	case UARTSerialDevice:
-		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
+		g_Tim6postscaler = BLUETOOTH_FREQUENCY / tim6Frequency;
 		break;
 	case USBDevice:
-		g_Tim6postscaler = tim6Frequency / USB_FREQUENCY;
+		g_Tim6postscaler = USB_FREQUENCY / tim6Frequency;
 		break;
 	}
 }
@@ -82,23 +82,19 @@ HAL_StatusTypeDef StartTransmission()
 
 HAL_StatusTypeDef ContinueTransmission()
 {
-	HAL_StatusTypeDef TransmisionStatus;
 	while(!g_TransmissionReadyFlag);
 	switch(g_TransmissionDevice)
 	{
 	case BluetoothDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
+		TransmitMeasurementsBluetooth();
 		break;
 	case UARTSerialDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
+		TransmitMeasurementsBluetooth();
 		break;
 	case USBDevice:
-		TransmisionStatus=TransmitMeasurementsUSB();
+		TransmitMeasurementsUSB();
 		break;
-	default:
-		return HAL_ERROR;
 	}
-	return TransmisionStatus;
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()

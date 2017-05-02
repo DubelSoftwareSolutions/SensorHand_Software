@@ -82,23 +82,19 @@ HAL_StatusTypeDef StartTransmission()
 
 HAL_StatusTypeDef ContinueTransmission()
 {
-	HAL_StatusTypeDef TransmisionStatus;
 	while(!g_TransmissionReadyFlag);
 	switch(g_TransmissionDevice)
 	{
 	case BluetoothDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
+		TransmitMeasurementsBluetooth();
 		break;
 	case UARTSerialDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
+		TransmitMeasurementsBluetooth();
 		break;
 	case USBDevice:
-		TransmisionStatus=TransmitMeasurementsUSB();
+		TransmitMeasurementsUSB();
 		break;
-	default:
-		return HAL_ERROR;
 	}
-	return TransmisionStatus;
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()

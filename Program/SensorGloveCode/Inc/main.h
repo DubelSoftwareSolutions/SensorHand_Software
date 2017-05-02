@@ -41,8 +41,8 @@
 
 /* Private define ------------------------------------------------------------*/
 #define I2C_ClockSpeed_kHz 400
-#define TIM6_PRESCALER 7199
-#define TIM6_COUNTER_PERIOD 999
+#define TIM6_PRESCALER 71
+#define TIM6_COUNTER_PERIOD 99
 
 #define DRDY_Accelerometer_Pin GPIO_PIN_2
 #define DRDY_Accelerometer_GPIO_Port GPIOE
