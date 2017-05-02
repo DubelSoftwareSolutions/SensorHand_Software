@@ -58,7 +58,7 @@ void MX_ADC1_Init(void)
     /**Common config 
     */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -89,7 +89,7 @@ void MX_ADC1_Init(void)
   sConfig.Channel = ADC_CHANNEL_2;
   sConfig.Rank = 1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_19CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_61CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -133,7 +133,7 @@ void MX_ADC2_Init(void)
     /**Common config 
     */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc2.Init.ContinuousConvMode = ENABLE;
@@ -156,7 +156,7 @@ void MX_ADC2_Init(void)
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = 1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_19CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_61CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
@@ -255,7 +255,7 @@ void MX_ADC3_Init(void)
     /**Common config 
     */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV1;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc3.Init.ContinuousConvMode = ENABLE;
@@ -265,7 +265,7 @@ void MX_ADC3_Init(void)
   hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc3.Init.NbrOfConversion = 5;
   hadc3.Init.DMAContinuousRequests = ENABLE;
-  hadc3.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc3.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   hadc3.Init.LowPowerAutoWait = DISABLE;
   hadc3.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   if (HAL_ADC_Init(&hadc3) != HAL_OK)
@@ -286,7 +286,7 @@ void MX_ADC3_Init(void)
   sConfig.Channel = ADC_CHANNEL_7;
   sConfig.Rank = 1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_19CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_61CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
@@ -382,9 +382,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc1);
 
-    /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(ADC1_2_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(ADC1_2_IRQn);
   /* USER CODE BEGIN ADC1_MspInit 1 */
 
   /* USER CODE END ADC1_MspInit 1 */
@@ -430,7 +427,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     /* Peripheral DMA init*/
   
-    hdma_adc2.Instance = DMA2_Channel1;
+    hdma_adc2.Instance = DMA2_Channel3;
     hdma_adc2.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hdma_adc2.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_adc2.Init.MemInc = DMA_MINC_ENABLE;
@@ -443,11 +440,10 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
       Error_Handler();
     }
 
+    __HAL_DMA_REMAP_CHANNEL_ENABLE(HAL_REMAPDMA_ADC24_DMA2_CH34);
+
     __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc2);
 
-    /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(ADC1_2_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(ADC1_2_IRQn);
   /* USER CODE BEGIN ADC2_MspInit 1 */
 
   /* USER CODE END ADC2_MspInit 1 */
@@ -490,9 +486,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
 
     __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc3);
 
-    /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(ADC3_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(ADC3_IRQn);
   /* USER CODE BEGIN ADC3_MspInit 1 */
 
   /* USER CODE END ADC3_MspInit 1 */
@@ -525,16 +518,6 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
-
-    /* Peripheral interrupt Deinit*/
-  /* USER CODE BEGIN ADC1:ADC1_2_IRQn disable */
-    /**
-    * Uncomment the line below to disable the "ADC1_2_IRQn" interrupt
-    * Be aware, disabling shared interrupt may affect other IPs
-    */
-    /* HAL_NVIC_DisableIRQ(ADC1_2_IRQn); */
-  /* USER CODE END ADC1:ADC1_2_IRQn disable */
-
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
   /* USER CODE END ADC1_MspDeInit 1 */
@@ -571,16 +554,6 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
-
-    /* Peripheral interrupt Deinit*/
-  /* USER CODE BEGIN ADC2:ADC1_2_IRQn disable */
-    /**
-    * Uncomment the line below to disable the "ADC1_2_IRQn" interrupt
-    * Be aware, disabling shared interrupt may affect other IPs
-    */
-    /* HAL_NVIC_DisableIRQ(ADC1_2_IRQn); */
-  /* USER CODE END ADC2:ADC1_2_IRQn disable */
-
   /* USER CODE BEGIN ADC2_MspDeInit 1 */
 
   /* USER CODE END ADC2_MspDeInit 1 */
@@ -605,10 +578,6 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* Peripheral DMA DeInit*/
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
-
-    /* Peripheral interrupt Deinit*/
-    HAL_NVIC_DisableIRQ(ADC3_IRQn);
-
   /* USER CODE BEGIN ADC3_MspDeInit 1 */
 
   /* USER CODE END ADC3_MspDeInit 1 */

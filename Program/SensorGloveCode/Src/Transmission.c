@@ -18,6 +18,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		if (g_Tim6iterator == g_Tim6postscaler)
 		{
+			AggregateMeasurementsToVoltage();
 			g_TransmissionReadyFlag = 1;
 			switch(g_TransmissionDevice)
 			{

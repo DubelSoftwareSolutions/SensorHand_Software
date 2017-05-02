@@ -103,6 +103,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if(g_Measurements.FlexSensor[0] > 3000)
+		  HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
+	  else
+		  HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_RESET);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -151,11 +155,8 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_UART4
-                              |RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_ADC12
-                              |RCC_PERIPHCLK_ADC34;
+                              |RCC_PERIPHCLK_I2C1;
   PeriphClkInit.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
-  PeriphClkInit.Adc34ClockSelection = RCC_ADC34PLLCLK_DIV1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
