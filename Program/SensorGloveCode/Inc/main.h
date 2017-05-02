@@ -64,8 +64,8 @@
 #define FlexSensor9_GPIO_Port GPIOC
 #define FlexSensor10_Pin GPIO_PIN_2
 #define FlexSensor10_GPIO_Port GPIOF
-#define B1_Pin GPIO_PIN_0
-#define B1_GPIO_Port GPIOA
+#define BlueButton_Pin GPIO_PIN_0
+#define BlueButton_GPIO_Port GPIOA
 #define RubberWire1_Pin GPIO_PIN_1
 #define RubberWire1_GPIO_Port GPIOA
 #define RubberWire2_Pin GPIO_PIN_2

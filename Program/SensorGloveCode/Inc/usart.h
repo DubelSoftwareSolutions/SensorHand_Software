@@ -57,7 +57,8 @@ extern void Error_Handler(void);
 void MX_UART4_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void MX_UART4_InitBluetooth(void);
+void MX_UART4_InitSerial(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

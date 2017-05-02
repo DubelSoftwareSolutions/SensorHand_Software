@@ -14,6 +14,7 @@
 typedef enum DeviceType_t{BluetoothDevice, UARTSerialDevice, USBDevice} DeviceType_t;
 
 #define TRANSMISION_TIMEOUT 1000
+#define TRANSMISSION_DATA_SIZE 10
 #define TIMER_CLOCK_FREQUENCY 72000000
 #define BLUETOOTH_FREQUENCY 20 //Hz
 #define UART_SERIAL_FREQUENCY 280 //Hz
@@ -21,6 +22,7 @@ typedef enum DeviceType_t{BluetoothDevice, UARTSerialDevice, USBDevice} DeviceTy
 #define DEFAULT_TRANSMISSION_DEVICE BluetoothDevice
 
 volatile uint8_t g_TransmissionReadyFlag;
+volatile uint8_t g_TransmissionCpltFlag;
 volatile DeviceType_t g_TransmissionDevice;
 volatile uint32_t g_Tim6postscaler;
 volatile uint32_t g_Tim6iterator;
