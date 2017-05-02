@@ -27,7 +27,6 @@ volatile uint32_t g_Tim6iterator;
 
 void ConfigureTransmissionFrequency();
 HAL_StatusTypeDef StartTransmission();
-HAL_StatusTypeDef ContinueTransmission();
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();

@@ -82,7 +82,6 @@ HAL_StatusTypeDef StartTransmission()
 
 HAL_StatusTypeDef ContinueTransmission()
 {
-	while(!g_TransmissionReadyFlag);
 	switch(g_TransmissionDevice)
 	{
 	case BluetoothDevice:

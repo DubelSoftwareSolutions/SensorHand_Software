@@ -18,7 +18,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		if (g_Tim6iterator == g_Tim6postscaler)
 		{
+			AggregateMeasurementsToVoltage();
 			g_TransmissionReadyFlag = 1;
+			switch(g_TransmissionDevice)
+			{
+			case BluetoothDevice:
+				TransmitMeasurementsBluetooth();
+				break;
+			case USBDevice:
+				TransmitMeasurementsUSB();
+				break;
+			}
 			g_Tim6iterator=0;
 		}
 		else
@@ -38,19 +48,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		switch(g_TransmissionDevice)
 		{
 		case BluetoothDevice:
-			g_TransmissionDevice = UARTSerialDevice;
-			HAL_GPIO_WritePin(LD4_GPIO_Port,LD4_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
-			break;
-		case UARTSerialDevice:
 			g_TransmissionDevice = USBDevice;
-			HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD5_GPIO_Port,LD5_Pin,GPIO_PIN_SET);
 			break;
 		case USBDevice:
 			g_TransmissionDevice = BluetoothDevice;
-			HAL_GPIO_WritePin(LD5_GPIO_Port,LD5_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD4_GPIO_Port,LD4_Pin,GPIO_PIN_SET);
 			break;
 		}
 }
@@ -63,9 +64,6 @@ void ConfigureTransmissionFrequency()
 	case BluetoothDevice:
 		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
 		break;
-	case UARTSerialDevice:
-		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
-		break;
 	case USBDevice:
 		g_Tim6postscaler = tim6Frequency / USB_FREQUENCY;
 		break;
@@ -75,26 +73,8 @@ void ConfigureTransmissionFrequency()
 HAL_StatusTypeDef StartTransmission()
 {
 	g_TransmissionDevice = DEFAULT_TRANSMISSION_DEVICE;
-	HAL_GPIO_WritePin(LD4_GPIO_Port,LD4_Pin,GPIO_PIN_SET);
 	ConfigureTransmissionFrequency();
 	return HAL_TIM_Base_Start_IT(&htim6);
-}
-
-HAL_StatusTypeDef ContinueTransmission()
-{
-	while(!g_TransmissionReadyFlag);
-	switch(g_TransmissionDevice)
-	{
-	case BluetoothDevice:
-		TransmitMeasurementsBluetooth();
-		break;
-	case UARTSerialDevice:
-		TransmitMeasurementsBluetooth();
-		break;
-	case USBDevice:
-		TransmitMeasurementsUSB();
-		break;
-	}
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()

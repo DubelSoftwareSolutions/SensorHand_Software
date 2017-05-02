@@ -80,23 +80,6 @@ HAL_StatusTypeDef StartTransmission()
 	return HAL_TIM_Base_Start_IT(&htim6);
 }
 
-HAL_StatusTypeDef ContinueTransmission()
-{
-	while(!g_TransmissionReadyFlag);
-	switch(g_TransmissionDevice)
-	{
-	case BluetoothDevice:
-		TransmitMeasurementsBluetooth();
-		break;
-	case UARTSerialDevice:
-		TransmitMeasurementsBluetooth();
-		break;
-	case USBDevice:
-		TransmitMeasurementsUSB();
-		break;
-	}
-}
-
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
 {
 	uint8_t i;

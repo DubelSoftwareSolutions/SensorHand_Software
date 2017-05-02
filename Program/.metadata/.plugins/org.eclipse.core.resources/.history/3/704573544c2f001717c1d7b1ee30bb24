@@ -103,7 +103,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  ContinueTransmission();
+	  AggregateMeasurementsToVoltage();
+	  //ContinueTransmission();
 	  if(g_Measurements.FlexSensor[0] > 3000)
 		  HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
 	  else
