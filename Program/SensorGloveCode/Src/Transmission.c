@@ -9,6 +9,7 @@
 #include "tim.h"
 #include "MeasurementStruct.h"
 #include "Measurements.h"
+#include "Accelerometer.h"
 #include "DataProcessing.h"
 #include "Transmission.h"
 
@@ -118,7 +119,7 @@ HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<FLEX_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_VoltageMeasurements.FlexSensor[i]);
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.FlexSensor[i]);
 		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
@@ -136,7 +137,7 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_VoltageMeasurements.TensionSensor[i]);
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.TensionSensor[i]);
 		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
@@ -154,7 +155,7 @@ HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_VoltageMeasurements.Accelerometer[i]);
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.Accelerometer[i]);
 		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);

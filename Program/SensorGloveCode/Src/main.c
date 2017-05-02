@@ -93,9 +93,11 @@ int main(void)
   MX_UART4_Init();
   MX_USB_PCD_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
 
   /* USER CODE BEGIN 2 */
   StartMeasurementsDMA();
+  StartAccelerometerMeasurements();
   StartTransmission();
 
   /* USER CODE END 2 */

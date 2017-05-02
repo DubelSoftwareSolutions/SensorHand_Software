@@ -1,0 +1,14 @@
+/*
+ * Accelerometer.c
+ *
+ *  Created on: 02.05.2017
+ *      Author: Krzysztof
+ */
+
+#include "i2c.h"
+#include "Accelerometer.h"
+
+HAL_StatusTypeDef StartAccelerometerMeasurements()
+{
+	//TODO
+}

@@ -13,8 +13,12 @@
 
 #define SUPPLY_VOLTAGE 3.3 //V
 
-volatile s_AggregatedMeasurements g_VoltageMeasurements;
+volatile s_AggregatedMeasurements g_AggregatedMeasurements;
 
 void AggregateMeasurementsToVoltage();
+void AggregateAccMeasurementsTo_mps2();
+void AggregateMeasurements();
+
+void ProcessDataForOutput();
 
 #endif /* DATAPROCESSING_H_ */
