@@ -7,8 +7,25 @@
 
 #include "i2c.h"
 #include "Accelerometer.h"
+#include "MeasurementStruct.h"
+#include "Measurements.h"
+
+#include <limits.h>
 
 HAL_StatusTypeDef StartAccelerometerMeasurements()
 {
-	//TODO
+
+	HAL_I2C_Mem_Write(&hi2c1, LSM303_ACC_ADDRESS, LSM303_ACC_CTRL_REG1_A, 1, LSM303_SETTINGS, 1, I2C_TIMEOUT);
+
+
+	HAL_I2C_Mem_Read(&hi2c1, LSM303_ACC_ADDRESS, LSM303_ACC_X_L_A_MULTI_READ, 1, Data, 6, I2C_TIMEOUT);
+	AxisVal = ((Data[1] << 8) | Data[0]);
+	g_Measurements.Accelerometer[0] = ((float)AxisVal*LSM303_ACC_RESOLUTION_G)/(float)INT16_MAX;
+	AxisVal = ((Data[3] << 8) | Data[2]);
+	g_Measurements.Accelerometer[1] = ((float)AxisVal*LSM303_ACC_RESOLUTION_G)/(float)INT16_MAX;
+	AxisVal = ((Data[5] << 8) | Data[4]);
+	g_Measurements.Accelerometer[2] = ((float)AxisVal*LSM303_ACC_RESOLUTION_G)/(float)INT16_MAX;
+
+
+
 }
