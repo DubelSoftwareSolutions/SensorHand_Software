@@ -36,6 +36,11 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth();
 
 HAL_StatusTypeDef TransmitMeasurementsBluetooth();
+
+HAL_StatusTypeDef TransmitFlexMeasurementsUSB();
+HAL_StatusTypeDef TransmitTensionMeasurementsUSB();
+HAL_StatusTypeDef TransmitAccelerometerMeasurementsUSB();
+
 HAL_StatusTypeDef TransmitMeasurementsUSB();
 
 #endif /* TRANSMISSION_H_ */

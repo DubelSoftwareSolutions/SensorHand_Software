@@ -33,12 +33,15 @@
 #define LSM303_ACC_ZAXIS_ENABLE 0b00000100
 #define LSM303_ACC_XYZ_ENABLE 	0b00000111
 #define LSM303_ACC_100HZ 0b01010000
-#define LSM303_SETTINGS (LSM303_ACC_100HZ | LSM303_ACC_XYZ_ENABLE)
 
+#define ACC_MEMORY_ADD_SIZE 1
+#define ACC_START_MESSAGE_SIZE 1
+#define ACC_RAW_DATA_SIZE (ACCELEROMETER_AXIS_COUNT*2)
 
-uint8_t Data[6];
-int16_t AxisVal = 0;
+static uint8_t g_LSM303_Settings[ACC_START_MESSAGE_SIZE]=
+		{LSM303_ACC_100HZ | LSM303_ACC_XYZ_ENABLE};
 
 HAL_StatusTypeDef StartAccelerometerMeasurements();
+HAL_StatusTypeDef GetAccelerometerData();
 
 #endif /* ACCELEROMETER_H_ */

@@ -4,7 +4,7 @@
  *  Created on: 03.04.2017
  *      Author: Krzysztof
  */
-
+#include "usbd_cdc_if.h"
 #include "usart.h"
 #include "tim.h"
 #include "MeasurementStruct.h"
@@ -197,8 +197,76 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	return HAL_OK;
 }
 
-HAL_StatusTypeDef TransmitMeasurementsUSB()
+HAL_StatusTypeDef TransmitFlexMeasurementsUSB()
 {
-	//TODO
-	return HAL_ERROR;
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	for(i=0;i<FLEX_SENSOR_COUNT;++i)
+	{
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.FlexSensor[i]);
+		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
+		if(TransmisionStatus!=HAL_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
+HAL_StatusTypeDef TransmitTensionMeasurementsUSB()
+{
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	for(i=0;i<TENSION_SENSOR_COUNT;++i)
+	{
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.TensionSensor[i]);
+		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
+		if(TransmisionStatus!=HAL_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
+HAL_StatusTypeDef TransmitAccelerometerMeasurementsUSB()
+{
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
+	{
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.Accelerometer[i]);
+		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
+		if(TransmisionStatus!=HAL_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
+HAL_StatusTypeDef TransmitMeasurementsUSB()
+ {
+	uint8_t OutputData[2];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	MessageSize = sprintf(OutputData, "\r\n");
+	while (!g_TransmissionCpltFlag)
+		;
+	g_TransmissionCpltFlag = 0;
+	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
+	TransmitFlexMeasurementsBluetooth();
+
+	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
+	TransmitTensionMeasurementsBluetooth();
+
+	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
+	TransmitAccelerometerMeasurementsBluetooth();
+
+	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
+	g_TransmissionCpltFlag = 1;
+	if (TransmisionStatus != HAL_OK)
+		return TransmisionStatus;
+
+	return HAL_OK;
 }

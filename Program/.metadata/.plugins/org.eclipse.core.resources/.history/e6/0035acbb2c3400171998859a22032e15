@@ -1,0 +1,29 @@
+/*
+ * Accelerometer.c
+ *
+ *  Created on: 02.05.2017
+ *      Author: Krzysztof
+ */
+
+#include <limits.h>
+
+#include "i2c.h"
+#include "Accelerometer.h"
+#include "MeasurementStruct.h"
+#include "Measurements.h"
+
+HAL_StatusTypeDef StartAccelerometerMeasurements()
+{
+	uint8_t RawAccelerometerData[ACC_RAW_DATA_SIZE];
+	HAL_StatusTypeDef I2C_Status;
+
+	I2C_Status = HAL_I2C_Mem_Write(&hi2c1, LSM303_ACC_ADDRESS, LSM303_ACC_CTRL_REG1_A,
+			ACC_MEMORY_ADD_SIZE, LSM303_SETTINGS, ACC_START_MESSAGE_SIZE, I2C_TIMEOUT);
+	if(I2C_Status != HAL_OK)
+
+	I2C_Status = HAL_I2C_Mem_Read(&hi2c1, LSM303_ACC_ADDRESS, LSM303_ACC_X_L_A_MULTI_READ,
+			ACC_MEMORY_ADD_SIZE, RawAccelerometerData, AXIS_RAW_DATA_SIZE, I2C_TIMEOUT);
+	g_Measurements.Accelerometer[0] = ((RawAccelerometerData[1] << 8) | RawAccelerometerData[0]);
+	g_Measurements.Accelerometer[1] = ((RawAccelerometerData[3] << 8) | RawAccelerometerData[2]);
+	g_Measurements.Accelerometer[2] = ((RawAccelerometerData[5] << 8) | RawAccelerometerData[4]);
+}

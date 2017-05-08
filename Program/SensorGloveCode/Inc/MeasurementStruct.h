@@ -21,7 +21,7 @@ typedef struct s_measurements
 {
 	uint16_t FlexSensor[FLEX_SENSOR_COUNT];
 	uint16_t TensionSensor[TENSION_SENSOR_COUNT];
-	uint16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
+	int16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
 } s_measurements;
 
 typedef struct s_AggregatedMeasurements
