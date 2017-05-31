@@ -1,0 +1,14 @@
+/*
+ * Accelerometer.h
+ *
+ *  Created on: 02.05.2017
+ *      Author: Krzysztof
+ */
+
+#ifndef ACCELEROMETER_H_
+#define ACCELEROMETER_H_
+
+#include "stm32f3xx_hal.h"
+#include "main.h"
+
+#endif /* ACCELEROMETER_H_ */

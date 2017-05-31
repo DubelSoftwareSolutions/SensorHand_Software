@@ -46,7 +46,14 @@
 /* Exported functions ------------------------------------------------------- */
 
 void SysTick_Handler(void);
+void EXTI0_IRQHandler(void);
+void DMA1_Channel1_IRQHandler(void);
+void USB_LP_CAN_RX0_IRQHandler(void);
 void UART4_IRQHandler(void);
+void TIM6_DAC_IRQHandler(void);
+void TIM7_IRQHandler(void);
+void DMA2_Channel3_IRQHandler(void);
+void DMA2_Channel5_IRQHandler(void);
 
 #ifdef __cplusplus
 }
