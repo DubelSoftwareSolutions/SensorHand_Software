@@ -136,7 +136,19 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 void MX_UART4_InitBluetooth(void)
 {
 	HAL_UART_DeInit(&huart4);
-	MX_UART4_Init();
+	huart4.Instance = UART4;
+	huart4.Init.BaudRate = 9600;
+	huart4.Init.WordLength = UART_WORDLENGTH_8B;
+	huart4.Init.StopBits = UART_STOPBITS_1;
+	huart4.Init.Parity = UART_PARITY_NONE;
+	huart4.Init.Mode = UART_MODE_TX;
+	huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+	huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+	huart4.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+	huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	if (HAL_UART_Init(&huart4) != HAL_OK) {
+		Error_Handler();
+	}
 }
 
 void MX_UART4_InitSerial(void)
@@ -154,6 +166,7 @@ void MX_UART4_InitSerial(void)
 	huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 	if (HAL_UART_Init(&huart4) != HAL_OK) {
 		Error_Handler();
+		HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
 	}
 }
 /* USER CODE END 1 */

@@ -43,19 +43,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		case BluetoothDevice:
 			g_TransmissionDevice = UARTSerialDevice;
 			MX_UART4_InitSerial();
-			HAL_GPIO_WritePin(LD8_GPIO_Port,LD8_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD10_GPIO_Port,LD10_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD8_GPIO_Port,LD10_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD10_GPIO_Port,LD8_Pin,GPIO_PIN_RESET);
 			break;
 		case UARTSerialDevice:
 			g_TransmissionDevice = USBDevice;
-			MX_UART4_InitBluetooth();
-			HAL_GPIO_WritePin(LD10_GPIO_Port,LD10_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD9_GPIO_Port,LD9_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD10_GPIO_Port,LD9_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD9_GPIO_Port,LD10_Pin,GPIO_PIN_RESET);
 			break;
 		case USBDevice:
 			g_TransmissionDevice = BluetoothDevice;
-			HAL_GPIO_WritePin(LD9_GPIO_Port,LD9_Pin,GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(LD8_GPIO_Port,LD8_Pin,GPIO_PIN_SET);
+			MX_UART4_InitBluetooth();
+			HAL_GPIO_WritePin(LD9_GPIO_Port,LD8_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(LD8_GPIO_Port,LD9_Pin,GPIO_PIN_RESET);
 			break;
 		}
 		ConfigureTransmissionFrequency();
@@ -171,23 +171,16 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	uint8_t OutputData[2];
 	uint16_t MessageSize;
 	HAL_StatusTypeDef TransmisionStatus;
-	MessageSize = sprintf(OutputData, "\r\n");
+	MessageSize = sprintf(OutputData, "S");
 	while (!g_TransmissionCpltFlag)
 		;
 	g_TransmissionCpltFlag = 0;
 	TransmisionStatus = HAL_UART_Transmit_IT(&huart4, OutputData, MessageSize);
 	TransmitFlexMeasurementsBluetooth();
-	while (!g_TransmissionCpltFlag)
-		;
-	g_TransmissionCpltFlag = 0;
-	TransmisionStatus = HAL_UART_Transmit_IT(&huart4, OutputData, MessageSize);
 	TransmitTensionMeasurementsBluetooth();
-	while (!g_TransmissionCpltFlag)
-		;
-	g_TransmissionCpltFlag = 0;
-	TransmisionStatus = HAL_UART_Transmit_IT(&huart4, OutputData, MessageSize);
 	TransmitAccelerometerMeasurementsBluetooth();
 
+	MessageSize = sprintf(OutputData, "R\r\n");
 	while (!g_TransmissionCpltFlag)
 		;
 	g_TransmissionCpltFlag = 0;
@@ -252,29 +245,15 @@ USBD_StatusTypeDef TransmitMeasurementsUSB()
 	uint16_t MessageSize;
 	USBD_StatusTypeDef TransmisionStatus;
 	USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-	MessageSize = sprintf(OutputData, "\r\n");
-	while (!g_TransmissionCpltFlag)
-		;
 	g_TransmissionCpltFlag = 0;
+	MessageSize = sprintf(OutputData, "S");
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	TransmitFlexMeasurementsUSB();
-
-	while(hcdc->TxState != USBD_OK)
-		;
-	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	TransmitTensionMeasurementsUSB();
-
-	while(hcdc->TxState != USBD_OK)
-		;
-	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	TransmitAccelerometerMeasurementsUSB();
-
-	while(hcdc->TxState != USBD_OK)
-		;
+	MessageSize = sprintf(OutputData, "R\r\n");
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	g_TransmissionCpltFlag = 1;
-	if (TransmisionStatus != HAL_OK)
-		return TransmisionStatus;
 
 	return HAL_OK;
 }
