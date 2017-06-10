@@ -138,7 +138,7 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.TensionSensor[i]);
+		MessageSize=sprintf(OutputData,"%d ",g_Measurements.TensionSensor[i]);
 		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
@@ -221,7 +221,7 @@ USBD_StatusTypeDef TransmitTensionMeasurementsUSB()
 	USBD_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.TensionSensor[i]);
+		MessageSize=sprintf(OutputData,"%d ",g_Measurements.TensionSensor[i]);
 		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
