@@ -13,6 +13,9 @@
 
 #define SUPPLY_VOLTAGE 3.3 //V
 
+typedef enum DeviceType_t{BluetoothDevice, UARTSerialDevice, USBDevice} DeviceType_t;
+
+volatile DeviceType_t g_TransmissionDevice;
 volatile s_AggregatedMeasurements g_AggregatedMeasurements;
 volatile s_JointAngles g_Finger[FINGER_COUNT];
 

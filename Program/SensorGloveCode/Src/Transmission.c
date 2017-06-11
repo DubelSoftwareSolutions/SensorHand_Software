@@ -172,7 +172,7 @@ HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth()
 
 HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 {
-	uint8_t OutputData[2];
+	uint8_t OutputData[3];
 	uint16_t MessageSize;
 	HAL_StatusTypeDef TransmisionStatus;
 	MessageSize = sprintf(OutputData, "S");
@@ -249,29 +249,25 @@ USBD_StatusTypeDef TransmitAccelerometerMeasurementsUSB()
 
 USBD_StatusTypeDef TransmitMeasurementsUSB()
  {
-	uint8_t OutputData[2];
+	uint8_t OutputData[3];
 	uint16_t MessageSize;
 	USBD_StatusTypeDef TransmisionStatus;
 	USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-	while (!g_TransmissionCpltFlag)
-		;
+	/*while (!g_TransmissionCpltFlag)
+		;*/
 	g_TransmissionCpltFlag = 0;
 	MessageSize = sprintf(OutputData, "S");
-	while(hcdc->TxState != USBD_OK)
-		;
+	/*while(hcdc->TxState != USBD_OK)
+		;*/
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
-	while(hcdc->TxState != USBD_OK)
-		;
+
 	TransmitFlexMeasurementsUSB();
-	while(hcdc->TxState != USBD_OK)
-		;
+
 	TransmitTensionMeasurementsUSB();
-	while(hcdc->TxState != USBD_OK)
-		;
+
 	TransmitAccelerometerMeasurementsUSB();
 	MessageSize = sprintf(OutputData, "R\r\n");
-	while(hcdc->TxState != USBD_OK)
-		;
+
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	g_TransmissionCpltFlag = 1;
 
