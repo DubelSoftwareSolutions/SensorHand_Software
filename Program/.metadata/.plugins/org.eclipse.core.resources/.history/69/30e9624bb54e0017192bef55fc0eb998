@@ -1,0 +1,31 @@
+/*
+ * DataProcessing.h
+ *
+ *  Created on: 29.04.2017
+ *      Author: Krzysztof
+ */
+
+#ifndef DATAPROCESSING_H_
+#define DATAPROCESSING_H_
+
+#include "stm32f3xx_hal.h"
+#include "main.h"
+
+#define SUPPLY_VOLTAGE 3.3 //V
+
+volatile s_AggregatedMeasurements g_AggregatedMeasurements;
+
+/*float* BaseFunction(int p_indicator, float* p_x);
+float** GenerateD(float* p_x,int p_k);
+float** Generate*/
+s_JointAngles g_Finger[FINGER_COUNT];
+
+void ApproximateFlexMeasurementsLinear();
+
+void AggregateMeasurementsToVoltage();
+void AggregateAccMeasurementsTo_mps2();
+void AggregateMeasurements();
+
+void ProcessDataForOutput();
+
+#endif /* DATAPROCESSING_H_ */

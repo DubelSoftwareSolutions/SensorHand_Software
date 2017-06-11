@@ -14,6 +14,13 @@
 #define SUPPLY_VOLTAGE 3.3 //V
 
 volatile s_AggregatedMeasurements g_AggregatedMeasurements;
+volatile s_JointAngles g_Finger[FINGER_COUNT];
+
+/*float* BaseFunction(int p_indicator, float* p_x);
+float** GenerateD(float* p_x,int p_k);
+float** Generate*/
+
+void ApproximateFlexMeasurementsLinear();
 
 void AggregateMeasurementsToVoltage();
 void AggregateAccMeasurementsTo_mps2();

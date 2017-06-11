@@ -11,6 +11,8 @@
 #include "stm32f3xx_hal.h"
 #include "main.h"
 
+#define FINGER_JOINT_COUNT 3
+#define FINGER_COUNT 5
 #define FLEX_SENSOR_COUNT 10
 #define TENSION_SENSOR_COUNT 5
 #define ACCELEROMETER_AXIS_COUNT 3
@@ -30,5 +32,10 @@ typedef struct s_AggregatedMeasurements
 	uint8_t TensionSensor[TENSION_SENSOR_COUNT];
 	float Accelerometer[ACCELEROMETER_AXIS_COUNT];
 } s_AggregatedMeasurements;
+
+typedef struct s_JointAngles
+{
+	float Joint[FINGER_JOINT_COUNT];
+} s_JointAngles;
 
 #endif /* MEASUREMENTSTRUCT_H_ */

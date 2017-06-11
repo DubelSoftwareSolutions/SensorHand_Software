@@ -65,6 +65,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 void ConfigureTransmissionFrequency()
 {
+	HAL_TIM_Base_Stop_IT(&htim6);
 	uint32_t tim6Frequency = TIMER_CLOCK_FREQUENCY/((htim6.Init.Period+1)*(htim6.Init.Prescaler+1));
 	switch(g_TransmissionDevice)
 	{
@@ -78,6 +79,7 @@ void ConfigureTransmissionFrequency()
 		g_Tim6postscaler = tim6Frequency / USB_FREQUENCY;
 		break;
 	}
+	HAL_TIM_Base_Start_IT(&htim6);
 }
 
 HAL_StatusTypeDef StartTransmission()
@@ -87,12 +89,14 @@ HAL_StatusTypeDef StartTransmission()
 	g_TransmissionCpltFlag = 1;
 	HAL_GPIO_WritePin(LD8_GPIO_Port,LD8_Pin,GPIO_PIN_SET);
 	ConfigureTransmissionFrequency();
-	return HAL_OK;//HAL_TIM_Base_Start_IT(&htim6);
+	return HAL_TIM_Base_Start_IT(&htim6);
 }
 
 HAL_StatusTypeDef ContinueTransmission()
 {
 	HAL_StatusTypeDef TransmisionStatus;
+	if(g_TransmissionReadyFlag)
+	{
 		g_TransmissionReadyFlag = 0;
 		switch (g_TransmissionDevice)
 		{
@@ -108,22 +112,26 @@ HAL_StatusTypeDef ContinueTransmission()
 		default:
 			return HAL_ERROR;
 		}
+	}
 		return TransmisionStatus;
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
 {
-	uint8_t i;
+	uint8_t i,j;
 	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
 	uint16_t MessageSize;
 	HAL_StatusTypeDef TransmisionStatus;
-	for(i=0;i<FLEX_SENSOR_COUNT;++i)
+	for(i=0;i<FINGER_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.FlexSensor[i]);
+		for(j=0;j<FINGER_JOINT_COUNT;++j)
+			{
+				MessageSize=sprintf(OutputData,"%f ",g_Finger[i].Joint[j]);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit(&huart4,OutputData,MessageSize,TRANSMISION_TIMEOUT);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
+			}
 	}
 	return HAL_OK;
 }
@@ -178,7 +186,7 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 
 	TransmitAccelerometerMeasurementsBluetooth();
 
-	MessageSize = sprintf(OutputData, "R\r\n");
+	MessageSize = sprintf(OutputData, "R");
 
 	g_TransmissionCpltFlag = 0;
 	TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize,TRANSMISION_TIMEOUT);
@@ -190,16 +198,19 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 
 USBD_StatusTypeDef TransmitFlexMeasurementsUSB()
 {
-	uint8_t i;
+	uint8_t i,j;
 	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
 	uint16_t MessageSize;
 	USBD_StatusTypeDef TransmisionStatus;
-	for(i=0;i<FLEX_SENSOR_COUNT;++i)
+	for(i=0;i<FINGER_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.FlexSensor[i]);
-		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
-		if(TransmisionStatus!=HAL_OK)
-			return TransmisionStatus;
+		for(j=0;j<FINGER_JOINT_COUNT;++j)
+			{
+				MessageSize=sprintf(OutputData,"%f ",g_Finger[i].Joint[j]);
+				TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
+				if(TransmisionStatus!=HAL_OK)
+					return TransmisionStatus;
+			}
 	}
 	return HAL_OK;
 }
