@@ -87,14 +87,12 @@ HAL_StatusTypeDef StartTransmission()
 	g_TransmissionCpltFlag = 1;
 	HAL_GPIO_WritePin(LD8_GPIO_Port,LD8_Pin,GPIO_PIN_SET);
 	ConfigureTransmissionFrequency();
-	return HAL_TIM_Base_Start_IT(&htim6);
+	return HAL_OK;//HAL_TIM_Base_Start_IT(&htim6);
 }
 
 HAL_StatusTypeDef ContinueTransmission()
 {
 	HAL_StatusTypeDef TransmisionStatus;
-	if (g_TransmissionReadyFlag)
-	{
 		g_TransmissionReadyFlag = 0;
 		switch (g_TransmissionDevice)
 		{
@@ -111,7 +109,6 @@ HAL_StatusTypeDef ContinueTransmission()
 			return HAL_ERROR;
 		}
 		return TransmisionStatus;
-	}
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
@@ -123,9 +120,8 @@ HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
 	for(i=0;i<FLEX_SENSOR_COUNT;++i)
 	{
 		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.FlexSensor[i]);
-		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
-		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
+		TransmisionStatus=HAL_UART_Transmit(&huart4,OutputData,MessageSize,TRANSMISION_TIMEOUT);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
 	}
@@ -140,10 +136,9 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		while(!g_TransmissionCpltFlag);
 		MessageSize=sprintf(OutputData,"%u ",g_AggregatedMeasurements.TensionSensor[i]);
 		g_TransmissionCpltFlag =0;
-		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
+		TransmisionStatus=HAL_UART_Transmit(&huart4,OutputData,MessageSize,TRANSMISION_TIMEOUT);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
 	}
@@ -159,9 +154,8 @@ HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth()
 	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
 	{
 		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.Accelerometer[i]);
-		while(!g_TransmissionCpltFlag);
 		g_TransmissionCpltFlag =0;
-		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
+		TransmisionStatus=HAL_UART_Transmit(&huart4,OutputData,MessageSize,TRANSMISION_TIMEOUT);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;
 	}
@@ -174,25 +168,20 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	uint16_t MessageSize;
 	HAL_StatusTypeDef TransmisionStatus;
 	MessageSize = sprintf(OutputData, "S");
-	while (!g_TransmissionCpltFlag)
-		;
+
 	g_TransmissionCpltFlag = 0;
-	TransmisionStatus = HAL_UART_Transmit_IT(&huart4, OutputData, MessageSize);
-	while (!g_TransmissionCpltFlag)
-		;
+	TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize,TRANSMISION_TIMEOUT);
+
 	TransmitFlexMeasurementsBluetooth();
-	while (!g_TransmissionCpltFlag)
-		;
+
 	TransmitTensionMeasurementsBluetooth();
-	while (!g_TransmissionCpltFlag)
-		;
+
 	TransmitAccelerometerMeasurementsBluetooth();
 
 	MessageSize = sprintf(OutputData, "R\r\n");
-	while (!g_TransmissionCpltFlag)
-		;
+
 	g_TransmissionCpltFlag = 0;
-	TransmisionStatus = HAL_UART_Transmit_IT(&huart4, OutputData, MessageSize);
+	TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize,TRANSMISION_TIMEOUT);
 	if (TransmisionStatus != HAL_OK)
 		return TransmisionStatus;
 
