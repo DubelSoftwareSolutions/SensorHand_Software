@@ -72,7 +72,7 @@ void ConfigureTransmissionFrequency()
 		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
 		break;
 	case UARTSerialDevice:
-		g_Tim6postscaler = tim6Frequency / BLUETOOTH_FREQUENCY;
+		g_Tim6postscaler = tim6Frequency / UART_SERIAL_FREQUENCY;
 		break;
 	case USBDevice:
 		g_Tim6postscaler = tim6Frequency / USB_FREQUENCY;
@@ -93,23 +93,25 @@ HAL_StatusTypeDef StartTransmission()
 HAL_StatusTypeDef ContinueTransmission()
 {
 	HAL_StatusTypeDef TransmisionStatus;
-	while(!g_TransmissionReadyFlag);
-	g_TransmissionReadyFlag=0;
-	switch(g_TransmissionDevice)
+	if (g_TransmissionReadyFlag)
 	{
-	case BluetoothDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
-		break;
-	case UARTSerialDevice:
-		TransmisionStatus=TransmitMeasurementsBluetooth();
-		break;
-	case USBDevice:
-		TransmisionStatus=TransmitMeasurementsUSB();
-		break;
-	default:
-		return HAL_ERROR;
+		g_TransmissionReadyFlag = 0;
+		switch (g_TransmissionDevice)
+		{
+		case BluetoothDevice:
+			TransmisionStatus = TransmitMeasurementsBluetooth();
+			break;
+		case UARTSerialDevice:
+			TransmisionStatus = TransmitMeasurementsBluetooth();
+			break;
+		case USBDevice:
+			TransmisionStatus = TransmitMeasurementsUSB();
+			break;
+		default:
+			return HAL_ERROR;
+		}
+		return TransmisionStatus;
 	}
-	return TransmisionStatus;
 }
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
@@ -138,8 +140,8 @@ HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth()
 	HAL_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%d ",g_Measurements.TensionSensor[i]);
 		while(!g_TransmissionCpltFlag);
+		MessageSize=sprintf(OutputData,"%u ",g_AggregatedMeasurements.TensionSensor[i]);
 		g_TransmissionCpltFlag =0;
 		TransmisionStatus=HAL_UART_Transmit_IT(&huart4,OutputData,MessageSize);
 		if(TransmisionStatus!=HAL_OK)
@@ -221,7 +223,7 @@ USBD_StatusTypeDef TransmitTensionMeasurementsUSB()
 	USBD_StatusTypeDef TransmisionStatus;
 	for(i=0;i<TENSION_SENSOR_COUNT;++i)
 	{
-		MessageSize=sprintf(OutputData,"%d ",g_Measurements.TensionSensor[i]);
+		MessageSize=sprintf(OutputData,"%u ",g_AggregatedMeasurements.TensionSensor[i]);
 		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
 		if(TransmisionStatus!=HAL_OK)
 			return TransmisionStatus;

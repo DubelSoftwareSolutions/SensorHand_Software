@@ -166,7 +166,6 @@ void MX_UART4_InitSerial(void)
 	huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
 	if (HAL_UART_Init(&huart4) != HAL_OK) {
 		Error_Handler();
-		HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
 	}
 }
 /* USER CODE END 1 */
