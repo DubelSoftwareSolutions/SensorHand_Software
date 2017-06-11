@@ -257,17 +257,19 @@ USBD_StatusTypeDef TransmitMeasurementsUSB()
 		;*/
 	g_TransmissionCpltFlag = 0;
 	MessageSize = sprintf(OutputData, "S");
-	/*while(hcdc->TxState != USBD_OK)
-		;*/
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
-
+	while(hcdc->TxState != USBD_OK)
+			;
 	TransmitFlexMeasurementsUSB();
-
+	while(hcdc->TxState != USBD_OK)
+			;
 	TransmitTensionMeasurementsUSB();
-
+	while(hcdc->TxState != USBD_OK)
+			;
 	TransmitAccelerometerMeasurementsUSB();
 	MessageSize = sprintf(OutputData, "R\r\n");
-
+	while(hcdc->TxState != USBD_OK)
+			;
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	g_TransmissionCpltFlag = 1;
 
