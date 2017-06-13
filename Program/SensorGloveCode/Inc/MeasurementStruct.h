@@ -16,6 +16,7 @@
 #define FLEX_SENSOR_COUNT 10
 #define TENSION_SENSOR_COUNT 5
 #define ACCELEROMETER_AXIS_COUNT 3
+#define RPY_COUNT 3
 #define SENSOR_COUNT (FLEX_SENSOR_COUNT+TENSION_SENSOR_COUNT+ACCELEROMETER_AXIS_COUNT)
 
 
@@ -31,6 +32,7 @@ typedef struct s_AggregatedMeasurements
 	float FlexSensor[FLEX_SENSOR_COUNT];
 	uint8_t TensionSensor[TENSION_SENSOR_COUNT];
 	float Accelerometer[ACCELEROMETER_AXIS_COUNT];
+	float RPYangles[RPY_COUNT];
 } s_AggregatedMeasurements;
 
 typedef struct s_JointAngles

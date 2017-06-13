@@ -24,9 +24,9 @@ float** GenerateD(float* p_x,int p_k);
 float** Generate*/
 
 void ApproximateFlexMeasurementsLinear();
-
 void AggregateMeasurementsToVoltage();
 void AggregateAccMeasurementsTo_mps2();
+void ApproximateAccMeasurementsRPY();
 void AggregateMeasurements();
 
 void ProcessDataForOutput();
