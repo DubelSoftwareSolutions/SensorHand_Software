@@ -1,0 +1,148 @@
+/*
+ * DataProcessing.c
+ *
+ *  Created on: 29.04.2017
+ *      Author: Krzysztof
+ */
+
+#include "math.h"
+#include "adc.h"
+#include "dma.h"
+#include "MeasurementStruct.h"
+#include "Measurements.h"
+#include "Accelerometer.h"
+#include "DataProcessing.h"
+
+uint16_t g_ThumbMinReadings[3] = {3100,1900,1900};
+uint16_t g_ThumbMaxReadings[3] = {2100,2860,2860};
+float g_ThumbMinAngles[3] = {0.0,0.0,0.0};
+float g_ThumbMaxAngles[3] = {90.0,45.0,70.0};
+
+uint16_t g_IndexMinReadings[3] = {1990,1820,1820};
+uint16_t g_IndexMaxReadings[3] = {3120,3500,3500};
+float g_IndexMinAngles[3] = {0.0,0.0,0.0};
+float g_IndexMaxAngles[3] = {90.0,130.0,55.0};
+
+uint16_t g_MiddleMinReadings[3] = {1990,1820,1820};
+uint16_t g_MiddleMaxReadings[3] = {3120,3500,3500};
+float g_MiddleMinAngles[3] = {0.0,0.0,0.0};
+float g_MiddleMaxAngles[3] = {90.0,120.0,70.0};
+
+float UnfilteredValue;
+float LowPassFilterBeta;
+
+void ApproximateFlexMeasurementsLinear()
+{
+
+	switch (g_TransmissionDevice)
+	{
+	case BluetoothDevice:
+		LowPassFilterBeta = 0.1;
+		break;
+	case UARTSerialDevice:
+		LowPassFilterBeta = 0.04;
+		break;
+	case USBDevice:
+		LowPassFilterBeta = 0.02;
+		break;
+	}
+	//Thumb
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[0] *
+			(g_ThumbMinAngles[0]-g_ThumbMaxAngles[0]) / (g_ThumbMinReadings[0]-g_ThumbMaxReadings[0]) + g_ThumbMinAngles[0] -
+			(g_ThumbMinAngles[0]-g_ThumbMaxAngles[0]) / (g_ThumbMinReadings[0]-g_ThumbMaxReadings[0]) * g_ThumbMinReadings[0];
+	g_Finger[0].Joint[0] = g_Finger[0].Joint[0] - (LowPassFilterBeta*(g_Finger[0].Joint[0] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[1] *
+				(g_ThumbMinAngles[1]-g_ThumbMaxAngles[1]) / (g_ThumbMinReadings[1]-g_ThumbMaxReadings[1]) + g_ThumbMinAngles[1] -
+				(g_ThumbMinAngles[1]-g_ThumbMaxAngles[1]) / (g_ThumbMinReadings[1]-g_ThumbMaxReadings[1]) * g_ThumbMinReadings[1];
+	g_Finger[0].Joint[1] = g_Finger[0].Joint[1] - (LowPassFilterBeta*(g_Finger[0].Joint[1] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[1] *
+				(g_ThumbMinAngles[2]-g_ThumbMaxAngles[2]) / (g_ThumbMinReadings[2]-g_ThumbMaxReadings[2]) + g_ThumbMinAngles[2] -
+				(g_ThumbMinAngles[2]-g_ThumbMaxAngles[2]) / (g_ThumbMinReadings[2]-g_ThumbMaxReadings[2]) * g_ThumbMinReadings[2];
+	g_Finger[0].Joint[2] = g_Finger[0].Joint[2] - (LowPassFilterBeta*(g_Finger[0].Joint[2] - UnfilteredJointAngle));
+
+	//index
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[2] *
+			(g_IndexMinAngles[0]-g_IndexMaxAngles[0]) / (g_IndexMinReadings[0]-g_IndexMaxReadings[0]) + g_IndexMinAngles[0] -
+			(g_IndexMinAngles[0]-g_IndexMaxAngles[0]) / (g_IndexMinReadings[0]-g_IndexMaxReadings[0]) * g_IndexMinReadings[0];
+	g_Finger[1].Joint[0] = g_Finger[1].Joint[0] - (LowPassFilterBeta*(g_Finger[1].Joint[0] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[3] *
+				(g_IndexMinAngles[1]-g_IndexMaxAngles[1]) / (g_IndexMinReadings[1]-g_IndexMaxReadings[1]) + g_IndexMinAngles[1] -
+				(g_IndexMinAngles[1]-g_IndexMaxAngles[1]) / (g_IndexMinReadings[1]-g_IndexMaxReadings[1]) * g_IndexMinReadings[1];
+	g_Finger[1].Joint[1] = g_Finger[1].Joint[1] - (LowPassFilterBeta*(g_Finger[1].Joint[1] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[3] *
+				(g_IndexMinAngles[2]-g_IndexMaxAngles[2]) / (g_IndexMinReadings[2]-g_IndexMaxReadings[2]) + g_IndexMinAngles[2] -
+				(g_IndexMinAngles[2]-g_IndexMaxAngles[2]) / (g_IndexMinReadings[2]-g_IndexMaxReadings[2]) * g_IndexMinReadings[2];
+	g_Finger[1].Joint[2] = g_Finger[1].Joint[2] - (LowPassFilterBeta*(g_Finger[1].Joint[2] - UnfilteredJointAngle));
+
+	//middle
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[5] *
+			(g_MiddleMinAngles[0]-g_MiddleMaxAngles[0]) / (g_MiddleMinReadings[0]-g_MiddleMaxReadings[0]) + g_MiddleMinAngles[0] -
+			(g_MiddleMinAngles[0]-g_MiddleMaxAngles[0]) / (g_MiddleMinReadings[0]-g_MiddleMaxReadings[0]) * g_MiddleMinReadings[0];
+	g_Finger[2].Joint[0] = g_Finger[2].Joint[0] - (LowPassFilterBeta*(g_Finger[2].Joint[0] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[4] *
+				(g_MiddleMinAngles[1]-g_MiddleMaxAngles[1]) / (g_MiddleMinReadings[1]-g_MiddleMaxReadings[1]) + g_MiddleMinAngles[1] -
+				(g_MiddleMinAngles[1]-g_MiddleMaxAngles[1]) / (g_MiddleMinReadings[1]-g_MiddleMaxReadings[1]) * g_MiddleMinReadings[1];
+	g_Finger[2].Joint[1] = g_Finger[2].Joint[1] - (LowPassFilterBeta*(g_Finger[2].Joint[1] - UnfilteredJointAngle));
+
+	UnfilteredJointAngle =  g_Measurements.FlexSensor[4] *
+				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) + g_MiddleMinAngles[2] -
+				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) * g_MiddleMinReadings[2];
+	g_Finger[2].Joint[2] = g_Finger[2].Joint[2] - (LowPassFilterBeta*(g_Finger[2].Joint[2] - UnfilteredJointAngle));
+}
+
+void AggregateMeasurementsToVoltage()
+{
+	for (uint8_t i = 0; i < FLEX_SENSOR_COUNT; ++i)
+		g_AggregatedMeasurements.FlexSensor[i] = (float) SUPPLY_VOLTAGE
+				* g_Measurements.FlexSensor[i] / ADC_RESOLUTION; //(float)pow(2,hadc2.Init.Resolution);
+	float nocnik = g_AggregatedMeasurements.FlexSensor[4];
+	g_AggregatedMeasurements.FlexSensor[4] = g_AggregatedMeasurements.FlexSensor[5];
+	g_AggregatedMeasurements.FlexSensor[5] = nocnik;
+	/*for (uint8_t i = 0; i < TENSION_SENSOR_COUNT; ++i)
+		g_AggregatedMeasurements.TensionSensor[i] = (float) SUPPLY_VOLTAGE
+				* g_Measurements.TensionSensor[i] / ADC_RESOLUTION; //(float)pow(2,hadc2.Init.Resolution);*/
+}
+
+void AggregateTensionMeasurementsToColourCode()
+{
+	for (uint8_t i = 0; i < TENSION_SENSOR_COUNT; ++i)
+			g_AggregatedMeasurements.TensionSensor[i] = 255 - g_Measurements.TensionSensor[i] * 255 / 4095;
+	uint8_t nocnik = g_AggregatedMeasurements.TensionSensor[1];
+	//Usunac po zamianie kanalow
+	g_AggregatedMeasurements.TensionSensor[1] = g_AggregatedMeasurements.TensionSensor[2];
+	g_AggregatedMeasurements.TensionSensor[2] = nocnik;
+}
+
+void AggregateAccMeasurementsTo_mps2()
+{
+	for (uint8_t i = 0; i < ACCELEROMETER_AXIS_COUNT; ++i)
+		g_AggregatedMeasurements.Accelerometer[i] =
+				(float) g_Measurements.Accelerometer[i]
+						* LSM303_ACC_RESOLUTION_MPS2 / (float) INT16_MAX;
+}
+
+void ApproximateAccMeasurementsRPY()
+{
+	g_AggregatedMeasurements.RPYangles[0] = 180*atan(g_Measurements.Accelerometer[1]/g_Measurements.Accelerometer[2])/M_PI;
+	g_AggregatedMeasurements.RPYangles[1] = 90 + 180*atan(-g_Measurements.Accelerometer[0]/
+			sqrt( pow(g_Measurements.Accelerometer[1],2)+pow(g_Measurements.Accelerometer[2],2)))/M_PI;
+	g_AggregatedMeasurements.RPYangles[2] = 0.0;
+}
+
+void AggregateMeasurements()
+{
+	ApproximateFlexMeasurementsLinear();
+	AggregateTensionMeasurementsToColourCode();
+	AggregateAccMeasurementsTo_mps2();
+	ApproximateAccMeasurementsRPY();
+}
+
+void ProcessDataForOutput()
+{
+
+}

@@ -66,17 +66,17 @@ void ApproximateFlexMeasurementsLinear()
 	g_Finger[1].Joint[2] = g_Finger[1].Joint[2] - (LowPassFilterBeta*(g_Finger[1].Joint[2] - UnfilteredValue));
 
 	//middle
-	UnfilteredValue =  g_Measurements.FlexSensor[5] *
+	UnfilteredValue =  g_Measurements.FlexSensor[4] *
 			(g_MiddleMinAngles[0]-g_MiddleMaxAngles[0]) / (g_MiddleMinReadings[0]-g_MiddleMaxReadings[0]) + g_MiddleMinAngles[0] -
 			(g_MiddleMinAngles[0]-g_MiddleMaxAngles[0]) / (g_MiddleMinReadings[0]-g_MiddleMaxReadings[0]) * g_MiddleMinReadings[0];
 	g_Finger[2].Joint[0] = g_Finger[2].Joint[0] - (LowPassFilterBeta*(g_Finger[2].Joint[0] - UnfilteredValue));
 
-	UnfilteredValue =  g_Measurements.FlexSensor[4] *
+	UnfilteredValue =  g_Measurements.FlexSensor[5] *
 				(g_MiddleMinAngles[1]-g_MiddleMaxAngles[1]) / (g_MiddleMinReadings[1]-g_MiddleMaxReadings[1]) + g_MiddleMinAngles[1] -
 				(g_MiddleMinAngles[1]-g_MiddleMaxAngles[1]) / (g_MiddleMinReadings[1]-g_MiddleMaxReadings[1]) * g_MiddleMinReadings[1];
 	g_Finger[2].Joint[1] = g_Finger[2].Joint[1] - (LowPassFilterBeta*(g_Finger[2].Joint[1] - UnfilteredValue));
 
-	UnfilteredValue =  g_Measurements.FlexSensor[4] *
+	UnfilteredValue =  g_Measurements.FlexSensor[5] *
 				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) + g_MiddleMinAngles[2] -
 				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) * g_MiddleMinReadings[2];
 	g_Finger[2].Joint[2] = g_Finger[2].Joint[2] - (LowPassFilterBeta*(g_Finger[2].Joint[2] - UnfilteredValue));
@@ -91,9 +91,6 @@ void AggregateMeasurementsToVoltage()
 		 g_AggregatedMeasurements.FlexSensor[i] = g_AggregatedMeasurements.FlexSensor[i] -
 				 (LowPassFilterBeta*(g_AggregatedMeasurements.FlexSensor[i] - UnfilteredValue));
 	}
-	float nocnik = g_AggregatedMeasurements.FlexSensor[4];
-	g_AggregatedMeasurements.FlexSensor[4] = g_AggregatedMeasurements.FlexSensor[5];
-	g_AggregatedMeasurements.FlexSensor[5] = nocnik;
 	/*for (uint8_t i = 0; i < TENSION_SENSOR_COUNT; ++i)
 		g_AggregatedMeasurements.TensionSensor[i] = (float) SUPPLY_VOLTAGE
 				* g_Measurements.TensionSensor[i] / ADC_RESOLUTION; //(float)pow(2,hadc2.Init.Resolution);*/
@@ -107,10 +104,6 @@ void AggregateTensionMeasurementsToColourCode()
 			g_AggregatedMeasurements.TensionSensor[i] = g_AggregatedMeasurements.TensionSensor[i] -
 					 (LowPassFilterBeta*(g_AggregatedMeasurements.TensionSensor[i] - UnfilteredValue));
 	}
-	uint8_t nocnik = g_AggregatedMeasurements.TensionSensor[1];
-	//Usunac po zamianie kanalow
-	g_AggregatedMeasurements.TensionSensor[1] = g_AggregatedMeasurements.TensionSensor[2];
-	g_AggregatedMeasurements.TensionSensor[2] = nocnik;
 }
 
 void AggregateAccMeasurementsTo_mps2()
@@ -165,9 +158,4 @@ void AggregateMeasurements()
 	AggregateTensionMeasurementsToColourCode();
 	AggregateAccMeasurementsTo_mps2();
 	ApproximateAccMeasurementsRPY();
-}
-
-void ProcessDataForOutput()
-{
-
 }
