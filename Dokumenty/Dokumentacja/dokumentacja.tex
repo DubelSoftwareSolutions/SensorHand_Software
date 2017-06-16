@@ -1,0 +1,218 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[MeX]{polski}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\pagestyle{plain}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+%\usepackage{subfig}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{nameref}
+\usepackage{subcaption}
+\begin{document}
+\LARGE\centering Dokumentacja techniczna projektu Rękawica Sensoryczna\\
+\large\centering Projekt realizowany w ramach kursu Roboty Mobilne 1 na Politechnice Wrocławskiej\\
+\vspace{5 mm}
+\normalsize\flushleft\textbf{Temat Projektu:} Rękawica sensoryczna\\
+\textbf{Autorzy:} Krzysztof Dąbek 218549, Dymitr Choroszczak 218627,\\Anna Postawka 218556\\
+\textbf{Kierunek:} Automatyka i Robotyka\\
+\textbf{Specjalność:} Robotyka (ARR)\\
+\textbf{Prowadzący:} dr inż. Andrzej Wołczowski\\
+\textbf{Kurs:} Roboty Mobilne 1\\
+\textbf{Termin zajęć:} pn TN 11:15, śr TN 14:30\\
+\vspace{5 mm}
+
+\section{Główne założenia projektowe: }\normalsize
+\begin{itemize}
+\item Stworzenie rękawicy z czujnikami ugięcia w trzech palcach oraz czujnikami nacisku na opuszkach
+\item Zamontowanie na opuszkach LEDów (np. RGB) wizualizujących odczyty z czujników nacisku
+\item Wykorzystanie płytki STM32F3Discovery do przetwarzania danych
+\item Użycie akcelerometru zawartego na płytce do określenia położenia dłoni względem pionu (wektora przyśpieszenia grawitacyjnego)
+\item Bezprzewodowe przesyłanie danych do komputera za pomocą modułu Bluetooth HC-06
+\item Przewodowe przesyłanie danych do komputera za pomocą interfejsu USB
+\item Zewnętrzne zasilanie z akumulatora
+\item Uproszczony model dłoni w wizualizacji 3D
+\end{itemize}
+
+\section{Opis czujników}
+\begin{itemize}
+\item Na opuszkach palców zamontowano \textbf{czujniki siły nacisku FSR-400}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
+\item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- flexsensory firmy Sparkfun}. Zgięcie tych sensorów powoduje wzrost rezystancji.
+\item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery został użyty do określenia orientacji rękawicy względem wektora grawitacji.
+\end{itemize}
+\subsection{Dane czujnika ugięcia}
+\begin{itemize}
+\item Długość powierzchni czynnej: 55.37 mm
+\item Zakres rezystancji: 25 kOhm - 125 kOhm
+\item Rezystor pomiarowy do dzielnika: 62 kOhm
+\end{itemize}
+\subsection{Dane czujnika nacisku}
+\begin{itemize}
+\item Średnica powierzchni czynnej: 5 mm
+\item Zakres pomiarowy nacisku: 0.2 - 20 N
+\item Zakres rezystancji: 150 Ohm - 10 MOhm
+\item Rezystor pomiarowy do dzielnika: 3 kOhm
+\end{itemize}
+\subsection{Dane z akcelerometru}
+\begin{itemize}
+\item Protokół komunikacyjny: $I^2C$
+\item Ilość osi: 3
+\item Maksymalne przeciążenie: 16g
+\item Dokładność pomiaru: 16 bitów 
+\end{itemize}
+%\subsection{Parametry}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{images/fsr-400.jpg}
+\caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Zakres & 0,2--20 N \\
+\hline
+Masa & 0,15 g \\ 
+\hline
+Wymiary zewnętrzne & 7,6 x 7,6 x 0,4 mm \\
+\hline
+\end{tabularx}
+\caption{Czujnik siły nacisku FSR-400}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Min. wartość rezystancji & 25 k$\Omega$ \\
+\hline
+Zakres rezystancji podczas zginania & 45--125 k$\Omega$ \\
+\hline
+Dł. całkowita & 73,66 mm \\
+\hline
+Dł. użyteczna czujnika & 55,37 mm \\ 
+\hline
+Szerokość & 6,35 mm \\
+\hline
+\end{tabularx}
+\caption{Czujnik ugięcia Flex Sensor 2.2"}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabularx}
+{\textwidth}{ |X|X| }
+\hline
+Napięcie pracy & 2,2--3,6 V \\
+\hline
+Interfejs komunikacyjny & I2C \\
+\hline
+Rozdzielczość & 16 bitów \\
+\hline
+Regulowany zakres akcelerometru &  $\pm$2g, $\pm$4g, $\pm$8g, $\pm$16g \\ 
+\hline
+Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\ 
+\hline
+Wymiary płytki & 37 x 15 mm \\
+\hline
+\end{tabularx}
+\caption{LSM303DLHC -- 3-osiowy akcelerometr i magnetometr I2C}
+\end{table}
+
+\section{Elementy składowe projektu}
+Rękawica sensoryczna zbiera dane z trzech palców prawej ręki. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
+ Przetestowano kilka ustawień czujników i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni 2 listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
+ 
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{images/gotowa.jpg}
+	\caption{Zewnętrzna część dłoni}
+	\label{fig:gotowa}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{images/gotowa2.jpg}
+	\caption{Wewnętrzna część dłoni}
+	\label{fig:gotowa2}
+\end{subfigure}
+\caption{Gotowa rękawica}
+\label{fig:gotowa_rekawica}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.65\textwidth]{images/rekawica2.jpg}
+\caption{Zdjęcie rękawicy w fazie montażu (aktualny rozkład czujników jest zmieniony)}
+\label{fig:rekawica2}
+\end{figure}
+
+\subsection{Połączenie z komputerem}
+Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i Bluetooth.
+
+\subsection{Odczyt danych z czujników}
+\subsubsection{Tensometry} \label{tensometry}
+Dane z czujników są odczytywane za pomocą przetwornika ADC oraz przy użyciu DMA (Direct Memory Access), co pozwala na bezpośrednie przekierowanie danych z czujników do odpowiednich zmiennych, bez wywoływania dodatkowej funkcji zwracającej wynik pomiaru.
+\subsubsection{Czujniki nacisku}
+Obsługa taka sama jak w: \nameref{tensometry}.
+\subsubsection{Akcelerometr}
+Z akcelerometrem komunikacja następuje po interfejsie I2C.
+
+
+
+\subsection{Wizualizacja dłoni}
+Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujników. Powstała we frameworku Qt. Aktualny interfejs graficzny wyświetla uproszczony model dłoni [rys. \ref{fig:wds}].
+\subsection{Pomiar parametrów w czasie rzeczywistym}
+Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:
+\begin{itemize}
+\item Przetwarzanie na wolty
+\item Przetwarzanie na $m/s^2$
+\item Przetwarzanie na nastawy przegubów
+\item Przetwarzanie na kąty RPY
+\end{itemize}
+Powyższe wartości są filtrowane na bieżąco przez filtr dolnoprzepustowy ze zmiennym parametrem $\beta$.
+\begin{equation}
+y[n] - \beta y[n-1] = (1-\beta)x[n]
+\end{equation}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{images/aktualnyinterfejsgraficzny.png}
+\caption{Aktualny interfejs graficzny}
+\label{fig:wds}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{images/nacisk.png}
+	\caption{Testowanie czujników nacisku}
+	\label{fig:nacisk}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[width=.9\textwidth]{images/ugiecie.png}
+	\caption{Testowanie czujników ugięcia}
+	\label{fig:ugiecie}
+\end{subfigure}
+\caption{Testy}
+\label{fig:testy}
+\end{figure}
+
+\end{document}
