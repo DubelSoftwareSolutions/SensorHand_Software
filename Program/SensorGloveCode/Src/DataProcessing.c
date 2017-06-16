@@ -28,6 +28,16 @@ uint16_t g_MiddleMaxReadings[3] = {3120,3500,3500};
 float g_MiddleMinAngles[3] = {0.0,0.0,0.0};
 float g_MiddleMaxAngles[3] = {90.0,120.0,70.0};
 
+uint16_t g_RingMinReadings[3] = {1990,1820,1820};
+uint16_t g_RingMaxReadings[3] = {3120,3500,3500};
+float g_RingMinAngles[3] = {0.0,0.0,0.0};
+float g_RingMaxAngles[3] = {90.0,120.0,70.0};
+
+uint16_t g_PinkyMinReadings[3] = {1990,1820,1820};
+uint16_t g_PinkyMaxReadings[3] = {3120,3500,3500};
+float g_PinkyMinAngles[3] = {0.0,0.0,0.0};
+float g_PinkyMaxAngles[3] = {90.0,120.0,70.0};
+
 float UnfilteredValue;
 float LowPassFilterBeta;
 
@@ -80,6 +90,38 @@ void ApproximateFlexMeasurementsLinear()
 				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) + g_MiddleMinAngles[2] -
 				(g_MiddleMinAngles[2]-g_MiddleMaxAngles[2]) / (g_MiddleMinReadings[2]-g_MiddleMaxReadings[2]) * g_MiddleMinReadings[2];
 	g_Finger[2].Joint[2] = g_Finger[2].Joint[2] - (LowPassFilterBeta*(g_Finger[2].Joint[2] - UnfilteredValue));
+
+	//ring
+	UnfilteredValue =  g_Measurements.FlexSensor[6] *
+			(g_RingMinAngles[0]-g_RingMaxAngles[0]) / (g_RingMinReadings[0]-g_RingMaxReadings[0]) + g_RingMinAngles[0] -
+			(g_RingMinAngles[0]-g_RingMaxAngles[0]) / (g_RingMinReadings[0]-g_RingMaxReadings[0]) * g_RingMinReadings[0];
+	g_Finger[3].Joint[0] = g_Finger[3].Joint[0] - (LowPassFilterBeta*(g_Finger[3].Joint[0] - UnfilteredValue));
+
+	UnfilteredValue =  g_Measurements.FlexSensor[7] *
+				(g_RingMinAngles[1]-g_RingMaxAngles[1]) / (g_RingMinReadings[1]-g_RingMaxReadings[1]) + g_RingMinAngles[1] -
+				(g_RingMinAngles[1]-g_RingMaxAngles[1]) / (g_RingMinReadings[1]-g_RingMaxReadings[1]) * g_RingMinReadings[1];
+	g_Finger[3].Joint[1] = g_Finger[3].Joint[1] - (LowPassFilterBeta*(g_Finger[3].Joint[1] - UnfilteredValue));
+
+	UnfilteredValue =  g_Measurements.FlexSensor[7] *
+				(g_RingMinAngles[2]-g_RingMaxAngles[2]) / (g_RingMinReadings[2]-g_RingMaxReadings[2]) + g_RingMinAngles[2] -
+				(g_RingMinAngles[2]-g_RingMaxAngles[2]) / (g_RingMinReadings[2]-g_RingMaxReadings[2]) * g_RingMinReadings[2];
+	g_Finger[3].Joint[2] = g_Finger[3].Joint[2] - (LowPassFilterBeta*(g_Finger[3].Joint[2] - UnfilteredValue));
+
+	//Pinky
+	UnfilteredValue =  g_Measurements.FlexSensor[8] *
+			(g_PinkyMinAngles[0]-g_PinkyMaxAngles[0]) / (g_PinkyMinReadings[0]-g_PinkyMaxReadings[0]) + g_PinkyMinAngles[0] -
+			(g_PinkyMinAngles[0]-g_PinkyMaxAngles[0]) / (g_PinkyMinReadings[0]-g_PinkyMaxReadings[0]) * g_PinkyMinReadings[0];
+	g_Finger[4].Joint[0] = g_Finger[4].Joint[0] - (LowPassFilterBeta*(g_Finger[4].Joint[0] - UnfilteredValue));
+
+	UnfilteredValue =  g_Measurements.FlexSensor[9] *
+				(g_PinkyMinAngles[1]-g_PinkyMaxAngles[1]) / (g_PinkyMinReadings[1]-g_PinkyMaxReadings[1]) + g_PinkyMinAngles[1] -
+				(g_PinkyMinAngles[1]-g_PinkyMaxAngles[1]) / (g_PinkyMinReadings[1]-g_PinkyMaxReadings[1]) * g_PinkyMinReadings[1];
+	g_Finger[4].Joint[1] = g_Finger[4].Joint[1] - (LowPassFilterBeta*(g_Finger[4].Joint[1] - UnfilteredValue));
+
+	UnfilteredValue =  g_Measurements.FlexSensor[9] *
+				(g_PinkyMinAngles[2]-g_PinkyMaxAngles[2]) / (g_PinkyMinReadings[2]-g_PinkyMaxReadings[2]) + g_PinkyMinAngles[2] -
+				(g_PinkyMinAngles[2]-g_PinkyMaxAngles[2]) / (g_PinkyMinReadings[2]-g_PinkyMaxReadings[2]) * g_PinkyMinReadings[2];
+	g_Finger[4].Joint[2] = g_Finger[4].Joint[2] - (LowPassFilterBeta*(g_Finger[4].Joint[2] - UnfilteredValue));
 }
 
 void AggregateMeasurementsToVoltage()
