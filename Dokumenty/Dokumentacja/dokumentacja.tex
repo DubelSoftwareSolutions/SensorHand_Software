@@ -16,18 +16,13 @@
 \usepackage{tabularx}
 \usepackage{nameref}
 \usepackage{subcaption}
+
+\input{tytulowa.tex}
 \begin{document}
-\LARGE\centering Dokumentacja techniczna projektu Rękawica Sensoryczna\\
-\large\centering Projekt realizowany w ramach kursu Roboty Mobilne 1 na Politechnice Wrocławskiej\\
-\vspace{5 mm}
-\normalsize\flushleft\textbf{Temat Projektu:} Rękawica sensoryczna\\
-\textbf{Autorzy:} Krzysztof Dąbek 218549, Dymitr Choroszczak 218627,\\Anna Postawka 218556\\
-\textbf{Kierunek:} Automatyka i Robotyka\\
-\textbf{Specjalność:} Robotyka (ARR)\\
-\textbf{Prowadzący:} dr inż. Andrzej Wołczowski\\
-\textbf{Kurs:} Roboty Mobilne 1\\
-\textbf{Termin zajęć:} pn TN 11:15, śr TN 14:30\\
-\vspace{5 mm}
+\maketitle
+\tableofcontents
+\newpage
+
 
 \section{Główne założenia projektowe: }\normalsize
 \begin{itemize}
@@ -43,15 +38,9 @@
 
 \section{Opis czujników}
 \begin{itemize}
-\item Na opuszkach palców zamontowano \textbf{czujniki siły nacisku FSR-400}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
-\item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- flexsensory firmy Sparkfun}. Zgięcie tych sensorów powoduje wzrost rezystancji.
+\item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku [rys. \ref{fig:wykresy_fsr-400}].
+\item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- Flex Sensory 2.2" firmy Spectra Symbol}. Zgięcie tych sensorów powoduje wzrost rezystancji.
 \item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery został użyty do określenia orientacji rękawicy względem wektora grawitacji.
-\end{itemize}
-\subsection{Dane czujnika ugięcia}
-\begin{itemize}
-\item Długość powierzchni czynnej: 55.37 mm
-\item Zakres rezystancji: 25 kOhm - 125 kOhm
-\item Rezystor pomiarowy do dzielnika: 62 kOhm
 \end{itemize}
 \subsection{Dane czujnika nacisku}
 \begin{itemize}
@@ -59,6 +48,12 @@
 \item Zakres pomiarowy nacisku: 0.2 - 20 N
 \item Zakres rezystancji: 150 Ohm - 10 MOhm
 \item Rezystor pomiarowy do dzielnika: 3 kOhm
+\end{itemize}
+\subsection{Dane czujnika ugięcia}
+\begin{itemize}
+\item Długość powierzchni czynnej: 55.37 mm
+\item Zakres rezystancji: 25 kOhm - 125 kOhm
+\item Rezystor pomiarowy do dzielnika: 62 kOhm
 \end{itemize}
 \subsection{Dane z akcelerometru}
 \begin{itemize}
@@ -73,6 +68,7 @@
 \centering
 \includegraphics[width=0.8\textwidth]{images/fsr-400.jpg}
 \caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
+\label{fig:wykresy_fsr-400}
 \end{figure}
 
 \begin{table}[h]
@@ -190,14 +186,14 @@ y[n] - \beta y[n-1] = (1-\beta)x[n]
 \end{equation}
 
 
-\begin{figure}[h]
+\begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\textwidth]{images/aktualnyinterfejsgraficzny.png}
 \caption{Aktualny interfejs graficzny}
 \label{fig:wds}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht!]
 \centering
 \begin{subfigure}{.5\textwidth}
 	\centering
@@ -214,5 +210,116 @@ y[n] - \beta y[n-1] = (1-\beta)x[n]
 \caption{Testy}
 \label{fig:testy}
 \end{figure}
+
+\section{Badania z wykorzystaniem rękawicy}
+Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. 
+\subsection{Przykładowe gesty}
+\paragraph{Pięść}
+rys. \ref{fig:piesc}
+\paragraph{Otwarta dłoń}
+rys. \ref{fig:otwarta_dlon}
+\paragraph{Wskazywanie}
+rys. \ref{fig:wskazywanie}
+\paragraph{Zetknięcie palców}
+rys. \ref{fig:zetkniecie_palcow}
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/piesc.png}
+	\caption{Zdjęcie przykładowego gestu}
+	\label{fig:piesc_foto}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/piesc2.png}
+	\caption{Wizualizacja w 3D}
+	\label{fig:piesc_3D}
+\end{subfigure}
+\caption{Gest zamkniętej pięści}
+\label{fig:piesc}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/otwarta_dlon.png}
+	\caption{Zdjęcie przykładowego gestu}
+	\label{fig:otwarta_dlon_foto}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/otwarta_dlon2.png}
+	\caption{Wizualizacja w 3D}
+	\label{fig:otwarta_dlon_3D}
+\end{subfigure}
+\caption{Gest otwartej dłoni}
+\label{fig:otwarta_dlon}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/wskazywanie.png}
+	\caption{Zdjęcie przykładowego gestu}
+	\label{fig:wskazywanie_foto}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/wskazywanie2.png}
+	\caption{Wizualizacja w 3D}
+	\label{fig:wskazywanie_3D}
+\end{subfigure}
+\caption{Gest pokazywania palcem wskazującym}
+\label{fig:wskazywanie}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/zetkniecie_palcow.png}
+	\caption{Zdjęcie przykładowego gestu}
+	\label{fig:zetkniecie_palcow_foto}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+%	\includegraphics[width=.9\textwidth]{images/zetkniecie_palcow2.png}
+	\caption{Wizualizacja w 3D}
+	\label{fig:zetkniecie_palcow_3D}
+\end{subfigure}
+\caption{Gest zetknięcia palca wskazującego i kciuka}
+\label{fig:zetkniecie_palcow}
+\end{figure}
+
+
+\section{Podsumowanie}
+\subsection{Problemy podczas konstrukcji}
+\begin{itemize}
+\item \textit{Mała powierzchnia czujników nacisku} -- przy niektórych chwytach człowiek wykorzystuje różne części palców, np. powierzchnię boczną, a czujniki umieszczone są tylko na opuszkach
+\item \textit{Problem z umieszczeniem czujnika rotacji kciuka} -- jest to złożony ruch, trudno wychwycić go jednym wąskim czujnikiem
+\item \textit{Różnice w dłoniach konstruktorów} -- rękawica musi pasować do konkretnej dłoni, żeby czujniki były na odpowiednich miejscach i poprawnie zbierały pomiary
+\item \textit{Mała dokładność czujników, przesuwanie się ich na rękawicy}
+\item \textit{Niedoskonałość pomiarów kątów zgięcia palców} -- przy danej konstrukcji i typie czujników nie jest możliwe uzyskanie tak wysokiej dokładności, jak zakładano
+\item \textit{Trudności w uzyskaniu poprawnego działania aproksymacji kątów z akcelerometru}
+\item \textit{Kłopoty z interpolacją / aproksymacją} -- jest to trudne do uzyskania w C
+\item \textit{Komplikacje przy zamówieniu elementów elektronicznych na katedrę} -- brak kontaktu z laborantem sprawił, że przez pewien czas nie można było uzyskać informacji, czy zamówienie zostało złożone, co poskutkowało opóźnieniem projektu
+\end{itemize}
+\subsection{Zmiany w założeniach projektowych}
+\begin{itemize}
+\item \textit{Bezprzewodowe przesyłanie danych do komputera za pomocą modułu Bluetooth} -- zrezygnowano, bo okazało się za wolne (BaudRate 9600 nie wystarcza)
+\item \textit{Zamontowanie na opuszkach LEDów wizualizujących odczyty z czujników nacisku} -- zabrakło miejsca, bo czujniki trzeba było przesunąć w stosunku do wstępnego schematu, a poza tym każda dioda wymagałaby 4 kabli, co utrudniałoby ruchy dłoni
+\end{itemize}
+\subsection{Pomysły na rozwinięcie projektu}
+\begin{itemize}
+\item RPY z wielu akcelerometrów
+\item Dokładniejsze pomiary i metoda interpolacji
+\item Wykrywanie większej ilości gestów
+\item Sterowanie robotem za pomocą gestów
+\item Dodatkowe czujniki nacisku
+\end{itemize}
 
 \end{document}
