@@ -177,7 +177,38 @@ Powyższe wartości są filtrowane na bieżąco przez filtr dolnoprzepustowy ze 
 \begin{equation}
 y[n] - \beta y[n-1] = (1-\beta)x[n]
 \end{equation}
+Nastawy przegubów są interpolowane funkcją liniową na podstawie pomiarów w skrajnych przypadkach maksymalnego i minimalnego zgięcia. Pomiary obarczone są dużym błędem ze względu na niestabilność konstrukcji (przesuwanie się czujników) oraz trudność w dobraniu metody pomiarowej. Pomiary przedstawiono poniżej.
+\begin{itemize}
+\item \textbf{Kciuk}\\
+Minimalne wartości odczytów czujników: 2500,1850\\
+Maksymalne wartości odczytów czujników: 2130,2500\\
+Minimalne zmierzone wartości kątów w przegubach: 0.0,0.0,0.0\\
+Maksymalne zmierzone wartości kątów w przegubach: 90.0,45.0,70.0\\
 
+\item \textbf{Palec wskazujący}\\
+Minimalne wartości odczytów czujników: 1920,1800\\
+Maksymalne wartości odczytów czujników: 2760,3200\\
+Minimalne zmierzone wartości kątów w przegubach: 0.0,0.0,0.0\\
+Maksymalne zmierzone wartości kątów w przegubach: 85.0,130.0,55.0\\
+
+\item \textbf{Palec środkowy}\\
+Minimalne wartości odczytów czujników: 1920,1650\\
+Maksymalne wartości odczytów czujników: 2650,2880\\
+Minimalne zmierzone wartości kątów w przegubach: 0.0,0.0,0.0\\
+Maksymalne zmierzone wartości kątów w przegubach: 90.0,120.0,70.0\\
+
+\item \textbf{Palec serdeczny}\\
+Minimalne wartości odczytów czujników: 1750,1560\\
+Maksymalne wartości odczytów czujników: 2300,2300\\
+Minimalne zmierzone wartości kątów w przegubach: 0.0,0.0,0.0\\
+Maksymalne zmierzone wartości kątów w przegubach: 80.0,100.0,85.0\\
+
+\item \textbf{Palec mały}\\
+Minimalne wartości odczytów czujników: 1520,1440\\
+Maksymalne wartości odczytów czujników: 2580,2930\\
+Minimalne zmierzone wartości kątów w przegubach: 0.0,0.0,0.0\\
+Maksymalne zmierzone wartości kątów w przegubach: 90.0,90.0,90.0\\
+\end{itemize}
 
 \begin{figure}[htb!]
 \centering
@@ -223,7 +254,7 @@ Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą ter
 \end{figure}
 
 \subsection{Przykładowe gesty}
-Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}, \ref{fig:OK}, \ref{fig:Peace}, \ref{fig:Point}).
+Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}, \ref{fig:OK}, \ref{fig:Peace}, \ref{fig:Point}).\\
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
@@ -235,7 +266,9 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
       \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
      \end{subfigure}
     \caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
+\flushleft Metoda identyfikacji: Kąty we wszystkich przegubach przekraczają określoną wartość.
 \end{figure}
+
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
@@ -245,7 +278,9 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
       \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
      \end{subfigure}
     \caption{Gest -- otwarta dłoń \label{fig:Palm}}
+\flushleft Metoda identyfikacji: Kąty we wszystkich przegubach nie przekraczają określonej wartości.
 \end{figure}
+
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
@@ -255,7 +290,9 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
       \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
      \end{subfigure}
     \caption{Gest -- OK \label{fig:OK}}
+\flushleft Metoda identyfikacji: Nacisk na palcach przekracza określona wartość.
 \end{figure}
+
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
@@ -265,7 +302,9 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
       \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
      \end{subfigure}
     \caption{Gest -- pacyfka\label{fig:Peace}}
+\flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców wskazującego i środkowego nie przekraczają określonej wartości. Kąty w przegubach palców serdecznego i małego przekraczają określoną wartość.
 \end{figure}
+
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
@@ -275,6 +314,7 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
       \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
      \end{subfigure}
     \caption{Gest -- wskazywanie palcem \label{fig:Point}}
+\flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców środkowego, serdecznego i małego przekraczają określoną wartość. Kąty w przegubach palców wskazującego i kciuka nie przekraczają określonej wartości.
 \end{figure}
 
 \newpage
