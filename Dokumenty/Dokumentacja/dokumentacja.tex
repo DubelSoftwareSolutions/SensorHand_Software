@@ -191,14 +191,14 @@ Obsługa taka sama jak w: \nameref{czujniki_nacisku}.
 \subsubsection{Akcelerometr}
 Z akcelerometrem komunikacja następuje po interfejsie I$^2$C.
 
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=0.8\textwidth]{images/fsr-400.jpg}
 \caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
 \label{fig:wykresy_fsr-400}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[!htb]
 \centering
 \begin{tabularx}
 {\textwidth}{ |X|X| }
@@ -215,7 +215,7 @@ Wymiary zewnętrzne & 7,6 x 7,6 x 0,4 mm \\
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[!htb]
 \centering
 \begin{tabularx}
 {\textwidth}{ |X|X| }
@@ -236,7 +236,7 @@ Szerokość & 6,35 mm \\
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[!htb]
 \centering
 \begin{tabularx}
 {\textwidth}{ |X|X| }
@@ -260,7 +260,7 @@ Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\
 Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
  Przetestowano kilka ustawień czujników i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni 2 listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
  
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \begin{subfigure}{.5\textwidth}
 	\centering
@@ -277,6 +277,7 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \caption{Gotowa rękawica}
 \label{fig:gotowa_rekawica}
 \end{figure}
+
 
 \begin{figure}[h]
 \centering
@@ -298,6 +299,9 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 %\end{itemize}
 \subsection{Połączenie z komputerem}
 Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB.
+
+\subsection{Połączenie z komputerem}
+Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
 
 \subsection{Struktury danych}
 Dane z czujników są przechowywane w następujacych strukturach:
@@ -355,14 +359,14 @@ y[n] - \beta y[n-1] = (1-\beta)x[n]
 \end{equation}
 
 
-\begin{figure}[ht!]
+\begin{figure}[htb!]
 \centering
 \includegraphics[width=0.8\textwidth]{images/aktualnyinterfejsgraficzny.png}
 \caption{Aktualny interfejs graficzny}
 \label{fig:wds}
 \end{figure}
 
-\begin{figure}[ht!]
+\begin{figure}[htb!]
 \centering
 \begin{subfigure}{.5\textwidth}
 	\centering
@@ -380,91 +384,80 @@ y[n] - \beta y[n-1] = (1-\beta)x[n]
 \label{fig:testy}
 \end{figure}
 
+\newpage
 \section{Badania z wykorzystaniem rękawicy}
-Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. 
+Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. Takie gesty mogą posłużyć sterowaniu robotem lub systemem automatyki (np. budynkowej). Przyporządkowanie gestu do wykonywanej czynności daje możliwość kontroli systemu.\\
+Wykrywanie gestów sprowadza się do ustawienia odpowiednich progów na niektórych czujnikach ugięcia i nacisku, po których przekroczeniu sygnalizuje się wykrycie gestu.\\
+
+\subsection{Dane pomiarowe}
+Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach (\ref{fig:term}, \ref{fig:stmstudio}).\\
+\begin{figure}
+\centering
+%\includegraphics[width=\textwidth]{./images/terminal.png}
+\caption{Wysyłane dane wyświetlone na terminalu \label{fig:term}}
+\end{figure}
+\begin{figure}
+\centering
+%\includegraphics[width=\textwidth]{./images/stmstudio.png}
+\caption{Pobierane dane wyświetlone w STMStudio\label{fig:stmstudio}}
+\end{figure}
+
 \subsection{Przykładowe gesty}
-\paragraph{Pięść}
-rys. \ref{fig:piesc}
-\paragraph{Otwarta dłoń}
-rys. \ref{fig:otwarta_dlon}
-\paragraph{Wskazywanie}
-rys. \ref{fig:wskazywanie}
-\paragraph{Zetknięcie palców}
-rys. \ref{fig:zetkniecie_palcow}
-
-\begin{figure}[ht!]
+Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}, \ref{fig:OK}, \ref{fig:Peace}, \ref{fig:Point}).
+\begin{figure}[!htb]
 \centering
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/piesc.png}
-	\caption{Zdjęcie przykładowego gestu}
-	\label{fig:piesc_foto}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/piesc2.png}
-	\caption{Wizualizacja w 3D}
-	\label{fig:piesc_3D}
-\end{subfigure}
-\caption{Gest zamkniętej pięści}
-\label{fig:piesc}
+    \begin{subfigure}{.5\textwidth}
+    \centering
+%      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
+     \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+    \centering
+%      \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
+     \end{subfigure}
+    \caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
+\end{figure}
+\begin{figure}[!htb]
+\centering
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
+     \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
+     \end{subfigure}
+    \caption{Gest -- otwarta dłoń \label{fig:Palm}}
+\end{figure}
+\begin{figure}[!htb]
+\centering
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
+     \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
+     \end{subfigure}
+    \caption{Gest -- OK \label{fig:OK}}
+\end{figure}
+\begin{figure}[!htb]
+\centering
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
+     \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
+     \end{subfigure}
+    \caption{Gest -- pacyfka\label{fig:Peace}}
+\end{figure}
+\begin{figure}[!htb]
+\centering
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
+     \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+%      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
+     \end{subfigure}
+    \caption{Gest -- wskazywanie palcem \label{fig:Point}}
 \end{figure}
 
-\begin{figure}[ht!]
-\centering
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/otwarta_dlon.png}
-	\caption{Zdjęcie przykładowego gestu}
-	\label{fig:otwarta_dlon_foto}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/otwarta_dlon2.png}
-	\caption{Wizualizacja w 3D}
-	\label{fig:otwarta_dlon_3D}
-\end{subfigure}
-\caption{Gest otwartej dłoni}
-\label{fig:otwarta_dlon}
-\end{figure}
-
-\begin{figure}[ht!]
-\centering
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/wskazywanie.png}
-	\caption{Zdjęcie przykładowego gestu}
-	\label{fig:wskazywanie_foto}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/wskazywanie2.png}
-	\caption{Wizualizacja w 3D}
-	\label{fig:wskazywanie_3D}
-\end{subfigure}
-\caption{Gest pokazywania palcem wskazującym}
-\label{fig:wskazywanie}
-\end{figure}
-
-\begin{figure}[ht!]
-\centering
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/zetkniecie_palcow.png}
-	\caption{Zdjęcie przykładowego gestu}
-	\label{fig:zetkniecie_palcow_foto}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-	\centering
-%	\includegraphics[width=.9\textwidth]{images/zetkniecie_palcow2.png}
-	\caption{Wizualizacja w 3D}
-	\label{fig:zetkniecie_palcow_3D}
-\end{subfigure}
-\caption{Gest zetknięcia palca wskazującego i kciuka}
-\label{fig:zetkniecie_palcow}
-\end{figure}
-
-
+\newpage
 \section{Podsumowanie}
 \subsection{Problemy podczas konstrukcji}
 \begin{itemize}

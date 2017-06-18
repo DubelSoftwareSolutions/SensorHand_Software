@@ -28,15 +28,19 @@ void ConfigureTransmissionFrequency();
 HAL_StatusTypeDef StartTransmission();
 HAL_StatusTypeDef ContinueTransmission();
 
+HAL_StatusTypeDef TransmitJointMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitTensionMeasurementsBluetooth();
 HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth();
+HAL_StatusTypeDef TransmitRPYMeasurementsBluetooth();
 
 HAL_StatusTypeDef TransmitMeasurementsBluetooth();
 
+USBD_StatusTypeDef TransmitJointMeasurementsUSB();
 USBD_StatusTypeDef TransmitFlexMeasurementsUSB();
 USBD_StatusTypeDef TransmitTensionMeasurementsUSB();
 USBD_StatusTypeDef TransmitAccelerometerMeasurementsUSB();
+USBD_StatusTypeDef TransmitRPYMeasurementsUSB();
 
 USBD_StatusTypeDef TransmitMeasurementsUSB();
 

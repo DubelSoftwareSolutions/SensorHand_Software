@@ -118,6 +118,23 @@ HAL_StatusTypeDef ContinueTransmission()
 
 HAL_StatusTypeDef TransmitFlexMeasurementsBluetooth()
 {
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	for(i=0;i<FLEX_SENSOR_COUNT;++i)
+	{
+		MessageSize = sprintf(OutputData, "%f ", g_AggregatedMeasurements.FlexSensor[i]);
+		g_TransmissionCpltFlag = 0;
+		TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize, TRANSMISION_TIMEOUT);
+		if (TransmisionStatus != HAL_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
+HAL_StatusTypeDef TransmitJointMeasurementsBluetooth()
+{
 	uint8_t i,j;
 	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
 	uint16_t MessageSize;
@@ -170,6 +187,23 @@ HAL_StatusTypeDef TransmitAccelerometerMeasurementsBluetooth()
 	return HAL_OK;
 }
 
+HAL_StatusTypeDef TransmitRPYMeasurementsBluetooth()
+{
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	HAL_StatusTypeDef TransmisionStatus;
+	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
+	{
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.RPYangles[i]);
+		g_TransmissionCpltFlag =0;
+		TransmisionStatus=HAL_UART_Transmit(&huart4,OutputData,MessageSize,TRANSMISION_TIMEOUT);
+		if(TransmisionStatus!=HAL_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
 HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 {
 	uint8_t OutputData[3];
@@ -180,13 +214,17 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	g_TransmissionCpltFlag = 0;
 	TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize,TRANSMISION_TIMEOUT);
 
-	TransmitFlexMeasurementsBluetooth();
+	TransmitJointMeasurementsBluetooth();
 
 	TransmitTensionMeasurementsBluetooth();
 
+	TransmitRPYMeasurementsBluetooth();
+
 	TransmitAccelerometerMeasurementsBluetooth();
 
-	MessageSize = sprintf(OutputData, "R");
+	TransmitFlexMeasurementsBluetooth();
+
+	MessageSize = sprintf(OutputData, "R\r\n");
 
 	g_TransmissionCpltFlag = 0;
 	TransmisionStatus = HAL_UART_Transmit(&huart4, OutputData, MessageSize,TRANSMISION_TIMEOUT);
@@ -196,7 +234,7 @@ HAL_StatusTypeDef TransmitMeasurementsBluetooth()
 	return HAL_OK;
 }
 
-USBD_StatusTypeDef TransmitFlexMeasurementsUSB()
+USBD_StatusTypeDef TransmitJointMeasurementsUSB()
 {
 	uint8_t i,j;
 	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
@@ -208,9 +246,25 @@ USBD_StatusTypeDef TransmitFlexMeasurementsUSB()
 			{
 				MessageSize=sprintf(OutputData,"%f ",g_Finger[i].Joint[j]);
 				TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
-				if(TransmisionStatus!=HAL_OK)
+				if(TransmisionStatus!=USBD_OK)
 					return TransmisionStatus;
 			}
+	}
+	return HAL_OK;
+}
+
+USBD_StatusTypeDef TransmitFlexMeasurementsUSB()
+{
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	USBD_StatusTypeDef TransmisionStatus;
+	for(i=0;i<FLEX_SENSOR_COUNT;++i)
+	{
+		MessageSize = sprintf(OutputData, "%f ", g_AggregatedMeasurements.FlexSensor[i]);
+		TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
+		if (TransmisionStatus != USBD_OK)
+			return TransmisionStatus;
 	}
 	return HAL_OK;
 }
@@ -225,7 +279,7 @@ USBD_StatusTypeDef TransmitTensionMeasurementsUSB()
 	{
 		MessageSize=sprintf(OutputData,"%u ",g_AggregatedMeasurements.TensionSensor[i]);
 		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
-		if(TransmisionStatus!=HAL_OK)
+		if(TransmisionStatus!=USBD_OK)
 			return TransmisionStatus;
 	}
 	return HAL_OK;
@@ -241,7 +295,23 @@ USBD_StatusTypeDef TransmitAccelerometerMeasurementsUSB()
 	{
 		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.Accelerometer[i]);
 		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
-		if(TransmisionStatus!=HAL_OK)
+		if(TransmisionStatus!=USBD_OK)
+			return TransmisionStatus;
+	}
+	return HAL_OK;
+}
+
+USBD_StatusTypeDef TransmitRPYMeasurementsUSB()
+{
+	uint8_t i;
+	uint8_t OutputData[TRANSMISSION_DATA_SIZE];
+	uint16_t MessageSize;
+	USBD_StatusTypeDef TransmisionStatus;
+	for(i=0;i<ACCELEROMETER_AXIS_COUNT;++i)
+	{
+		MessageSize=sprintf(OutputData,"%f ",g_AggregatedMeasurements.RPYangles[i]);
+		TransmisionStatus=CDC_Transmit_FS(OutputData,MessageSize);
+		if(TransmisionStatus!=USBD_OK)
 			return TransmisionStatus;
 	}
 	return HAL_OK;
@@ -260,13 +330,19 @@ USBD_StatusTypeDef TransmitMeasurementsUSB()
 	TransmisionStatus = CDC_Transmit_FS(OutputData, MessageSize);
 	while(hcdc->TxState != USBD_OK)
 			;
-	TransmitFlexMeasurementsUSB();
+	TransmitJointMeasurementsUSB();
 	while(hcdc->TxState != USBD_OK)
 			;
 	TransmitTensionMeasurementsUSB();
 	while(hcdc->TxState != USBD_OK)
 			;
+	TransmitRPYMeasurementsUSB();
+	while(hcdc->TxState != USBD_OK)
+			;
 	TransmitAccelerometerMeasurementsUSB();
+	while(hcdc->TxState != USBD_OK)
+			;
+	TransmitFlexMeasurementsUSB();
 	MessageSize = sprintf(OutputData, "R\r\n");
 	while(hcdc->TxState != USBD_OK)
 			;
