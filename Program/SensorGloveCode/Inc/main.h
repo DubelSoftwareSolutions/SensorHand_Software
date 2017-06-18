@@ -78,6 +78,7 @@
 #define FlexSensor10_GPIO_Port GPIOF
 #define BlueButton_Pin GPIO_PIN_0
 #define BlueButton_GPIO_Port GPIOA
+#define BlueButton_EXTI_IRQn EXTI0_IRQn
 #define RubberWire1_Pin GPIO_PIN_1
 #define RubberWire1_GPIO_Port GPIOA
 #define RubberWire2_Pin GPIO_PIN_2
