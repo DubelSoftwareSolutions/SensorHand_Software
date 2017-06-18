@@ -17,6 +17,125 @@
 \usepackage{nameref}
 \usepackage{subcaption}
 
+% Poniższy fragment preambuły by Piotr Matuszak.
+\usepackage[polish]{babel} %język polski
+%\usepackage[utf8]{inputenc} %interpretacja znaków
+\usepackage[T1]{fontenc} %interpretacja polskich znaków
+\usepackage{lmodern} 
+\usepackage[margin=2cm]{geometry} %marginesy
+%\usepackage[]{natbib} %bibliografia
+\usepackage{graphicx} %wstawianie obrazów i do tablicy
+%usepackage{wrapfig} %obrazy przyległe do tekstu
+\usepackage{mathtools}  %funkcje matematyczne
+\mathtoolsset{showonlyrefs} %nienumerowanie wzorów matematycznych
+\usepackage{float}
+\usepackage{booktabs} % do tablicy
+\usepackage{multirow} % do tablicy
+\usepackage{enumitem}  % tryb listy [pogrubiony tekst] [wyjasnienie] 
+\usepackage[font=small]{caption} % podpisy małe
+\usepackage[font=small]{subcaption} % subpodpisy małe
+\usepackage[pdftex,hidelinks]{hyperref} % href, ukrywa czerwone obwódki wokół linków
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{lscape}
+\pagestyle{plain} % zwykły tekst
+%\usepackage{indentfirst} %pierwszy paragraf z wcięciem
+\usepackage{tabularx} %tablica o zadanej szerokości
+\usepackage{makecell}
+\usepackage{listings}
+\usepackage{mdframed}
+
+\lstset{
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  	breaklines=true,                 % sets automatic line breaking
+  	frame=single,	                 % adds a frame around the code
+  	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  	numbersep=5pt,                   % how far the line-numbers are from the code
+  	numberstyle=\tiny,					 % the style that is used for the line-numbers
+  	tabsize=2,	                   % sets default tabsize to 2 spaces
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{framecolour}{rgb}{0.58, 0.741, 0.835}
+
+\lstloadlanguages{Fortran,C++,C,[LaTeX]TeX,Python,bash,R, Perl}
+
+\renewcommand{\lstlistingname}{Polecenie}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista poleceń}% List of Listings -> List of Algorithms
+
+  \lstset{%
+    language=bash,
+    otherkeywords={=, +, [, ], (, ), \{, \}, *},
+    % bash commands from:
+    %http://www.math.montana.edu/Rweb/Rhelp/00Index.html
+    emph={addgroup,adduser,alias,
+    ant,
+    apropos,apt-get,aptitude,aspell,awk,
+    basename,bash,bc,bg,break,builtin,bzip2,cal,case,cat,cd,cfdisk,chgrp,
+    chkconfig,chmod,chown,chroot,cksum,clear,cmp,comm,command,continue,
+    cp,cron,crontab,csplit,cut,date,dc,dd,ddrescue,declare,df,diff,diff3,
+    dig,dir,dircolors,dirname,dirs,dmesg,du,echo,egrep,eject,enable,env,
+    ethtool,eval,exec,exit,expand,expect,export,expr,false,fdformat,
+    fdisk,fg,fgrep,file,find,fmt,fold,for,format,free,fsck,ftp,function,
+    fuser,gawk,getopts,
+    git,
+    grep,groups,gzip,
+    gunzip,
+    ,hash,head,help,history,hostname,
+    id,if,ifconfig,ifdown,ifup,import,install,
+    java, java6, java_cur
+    join,kill,killall,less,
+    let,ln,local,locate,logname,logout,look,lpc,lpr,lprint,lprintd,
+    lprintq,lprm,ls,lsof,make,man,mkdir,mkfifo,mkisofs,mknod,mmv,more,
+    mount,mtools,mtr,mv,
+    mysql,
+    netstat,nice,nl,nohup,notify-send,
+    noweb,noweave,
+    nslookup,op,
+    open,passwd,paste,pathchk,ping,pkill,popd,pr,printcap,printenv,
+    printf,ps,pushd,pwd,quota,quotacheck,quotactl,ram,rcp,read,
+    readarray,readonly,reboot,remsync,rename,renice,return,rev,rm,rmdir,
+    rsync,scp,screen,sdiff,sed,select,seq,set,sftp,shift,shopt,shutdown,
+    sleep,slocate,sort,source,split,ssh,strace,su,sudo,sum,
+    svn, svn2git,
+    symlink,sync,
+    tail,tar,tee,test,time,times,top,touch,tr,traceroute,trap,true,
+    tsort,tty,type,ulimit,umask,umount,unalias,uname,unexpand,uniq,
+    units,
+    unrar,
+    unset,unshar,until,useradd,usermod,users,uudecode,uuencode,
+    vdir,vi,vmstat,watch,wc,Wget,whereis,which,while,who,whoami,write,
+    zcat},
+    breaklines=true,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    emphstyle=\color{black}\bfseries,
+    commentstyle=\color{gray}\slshape,
+  }
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    %numbers=left,                    
+    numbers=none,
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
 \input{tytulowa.tex}
 \begin{document}
 \maketitle
@@ -42,27 +161,35 @@
 \item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- Flex Sensory 2.2" firmy Spectra Symbol}. Zgięcie tych sensorów powoduje wzrost rezystancji.
 \item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery został użyty do określenia orientacji rękawicy względem wektora grawitacji.
 \end{itemize}
-\subsection{Dane czujnika nacisku}
+\subsection{Parametry}
+Patrz: Tabela \ref{table:tabela_fsr-400}, Tabela \ref{table:tabela_flexsensor}, Tabela \ref{table:tabela_akcelerometr}.
+\subsubsection{Dane czujnika nacisku}
 \begin{itemize}
 \item Średnica powierzchni czynnej: 5 mm
 \item Zakres pomiarowy nacisku: 0.2 - 20 N
 \item Zakres rezystancji: 150 Ohm - 10 MOhm
 \item Rezystor pomiarowy do dzielnika: 3 kOhm
 \end{itemize}
-\subsection{Dane czujnika ugięcia}
+\subsubsection{Dane czujnika ugięcia}
 \begin{itemize}
 \item Długość powierzchni czynnej: 55.37 mm
 \item Zakres rezystancji: 25 kOhm - 125 kOhm
 \item Rezystor pomiarowy do dzielnika: 62 kOhm
 \end{itemize}
-\subsection{Dane z akcelerometru}
+\subsubsection{Dane z akcelerometru}
 \begin{itemize}
 \item Protokół komunikacyjny: $I^2C$
 \item Ilość osi: 3
 \item Maksymalne przeciążenie: 16g
 \item Dokładność pomiaru: 16 bitów 
 \end{itemize}
-%\subsection{Parametry}
+\subsection{Odczyt danych z czujników}
+\subsubsection{Czujniki nacisku} \label{czujniki_nacisku}
+Dane z czujników są odczytywane za pomocą przetwornika ADC oraz przy użyciu DMA (Direct Memory Access), co pozwala na bezpośrednie przekierowanie danych z czujników do odpowiednich zmiennych, bez wywoływania dodatkowej funkcji zwracającej wynik pomiaru.
+\subsubsection{Czujniki ugięcia}
+Obsługa taka sama jak w: \nameref{czujniki_nacisku}.
+\subsubsection{Akcelerometr}
+Z akcelerometrem komunikacja następuje po interfejsie I$^2$C.
 
 \begin{figure}[h]
 \centering
@@ -84,6 +211,7 @@ Wymiary zewnętrzne & 7,6 x 7,6 x 0,4 mm \\
 \hline
 \end{tabularx}
 \caption{Czujnik siły nacisku FSR-400}
+\label{table:tabela_fsr-400}
 \end{table}
 
 
@@ -104,6 +232,7 @@ Szerokość & 6,35 mm \\
 \hline
 \end{tabularx}
 \caption{Czujnik ugięcia Flex Sensor 2.2"}
+\label{table:tabela_flexsensor}
 \end{table}
 
 
@@ -114,7 +243,7 @@ Szerokość & 6,35 mm \\
 \hline
 Napięcie pracy & 2,2--3,6 V \\
 \hline
-Interfejs komunikacyjny & I2C \\
+Interfejs komunikacyjny & I$^2$C \\
 \hline
 Rozdzielczość & 16 bitów \\
 \hline
@@ -122,14 +251,13 @@ Regulowany zakres akcelerometru &  $\pm$2g, $\pm$4g, $\pm$8g, $\pm$16g \\
 \hline
 Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\ 
 \hline
-Wymiary płytki & 37 x 15 mm \\
-\hline
 \end{tabularx}
 \caption{LSM303DLHC -- 3-osiowy akcelerometr i magnetometr I2C}
+\label{table:tabela_akcelerometr}
 \end{table}
 
 \section{Elementy składowe projektu}
-Rękawica sensoryczna zbiera dane z trzech palców prawej ręki. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
+Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
  Przetestowano kilka ustawień czujników i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni 2 listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
  
 \begin{figure}[h]
@@ -157,31 +285,72 @@ Rękawica sensoryczna zbiera dane z trzech palców prawej ręki. Czujniki ugięc
 \label{fig:rekawica2}
 \end{figure}
 
+%\subsection{Hardware}
+%Rękawica składa się z następujących elementów:
+%\begin{itemize}
+%\item 3 czujniki nacisku -- kciuk, palec wskazujący i palec środkowy
+%\item 10 czujników ugięcia -- po 2 na każdy palec
+%\item Akcelerometr
+%\item Moduł sterujący -- płytka STM32F3 - Discovery
+%\item Dzielniki napięciowe
+%\item Konwerter USB-UART
+%\item 
+%\end{itemize}
 \subsection{Połączenie z komputerem}
-Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i Bluetooth.
+Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB.
 
-\subsection{Odczyt danych z czujników}
-\subsubsection{Tensometry} \label{tensometry}
-Dane z czujników są odczytywane za pomocą przetwornika ADC oraz przy użyciu DMA (Direct Memory Access), co pozwala na bezpośrednie przekierowanie danych z czujników do odpowiednich zmiennych, bez wywoływania dodatkowej funkcji zwracającej wynik pomiaru.
-\subsubsection{Czujniki nacisku}
-Obsługa taka sama jak w: \nameref{tensometry}.
-\subsubsection{Akcelerometr}
-Z akcelerometrem komunikacja następuje po interfejsie I2C.
+\subsection{Struktury danych}
+Dane z czujników są przechowywane w następujacych strukturach:
+\begin{lstlisting}[frame=single]
+#define FINGER_JOINT_COUNT 3
+#define FINGER_COUNT 5
+#define FLEX_SENSOR_COUNT 10
+#define TENSION_SENSOR_COUNT 5
+#define ACCELEROMETER_AXIS_COUNT 3
+#define SENSOR_COUNT (FLEX_SENSOR_COUNT+TENSION_SENSOR_COUNT+ACCELEROMETER_AXIS_COUNT)
 
+
+typedef struct s_measurements
+{
+	uint16_t FlexSensor[FLEX_SENSOR_COUNT];
+	uint16_t TensionSensor[TENSION_SENSOR_COUNT];
+	int16_t Accelerometer[ACCELEROMETER_AXIS_COUNT];
+} s_measurements;
+
+typedef struct s_AggregatedMeasurements
+{
+	float FlexSensor[FLEX_SENSOR_COUNT];
+	uint8_t TensionSensor[TENSION_SENSOR_COUNT];
+	float Accelerometer[ACCELEROMETER_AXIS_COUNT];
+} s_AggregatedMeasurements;
+
+typedef struct s_JointAngles
+{
+	float Joint[FINGER_JOINT_COUNT];
+} s_JointAngles;
+\end{lstlisting}
 
 
 \subsection{Wizualizacja dłoni}
 Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujników. Powstała we frameworku Qt. Aktualny interfejs graficzny wyświetla uproszczony model dłoni [rys. \ref{fig:wds}].
 \subsection{Pomiar parametrów w czasie rzeczywistym}
-Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:
+Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:\\\\
+\textbf{Dane z czujników nacisku:}
 \begin{itemize}
-\item Przetwarzanie na wolty
-\item Przetwarzanie na $m/s^2$
-\item Przetwarzanie na nastawy przegubów
-\item Przetwarzanie na kąty RPY
+\item Wyrażone w woltach
+\item Zobrazowane za pomocą przestrzeni kolorów HSV
 \end{itemize}
-Powyższe wartości są filtrowane na bieżąco przez filtr dolnoprzepustowy ze zmiennym parametrem $\beta$.
-\begin{equation}
+\textbf{Dane z czujników ugięcia:}
+\begin{itemize}
+\item Wyrażone w woltach
+\item Interpolowane liniowo na kąty w przegubach
+\end{itemize}
+\textbf{Dane z akcelerometru:}
+\begin{itemize}
+\item Wyrażone w $m/s^2$
+\end{itemize}
+Powyższe wartości są filtrowane na bieżąco przez filtr dolnoprzepustowy ze zmiennym parametrem $\beta$ (zależnie od metody wysyłania).
+\begin{equation} \label{eq:1}
 y[n] - \beta y[n-1] = (1-\beta)x[n]
 \end{equation}
 
@@ -310,8 +479,8 @@ rys. \ref{fig:zetkniecie_palcow}
 \end{itemize}
 \subsection{Zmiany w założeniach projektowych}
 \begin{itemize}
-\item \textit{Bezprzewodowe przesyłanie danych do komputera za pomocą modułu Bluetooth} -- zrezygnowano, bo okazało się za wolne (BaudRate 9600 nie wystarcza)
 \item \textit{Zamontowanie na opuszkach LEDów wizualizujących odczyty z czujników nacisku} -- zabrakło miejsca, bo czujniki trzeba było przesunąć w stosunku do wstępnego schematu, a poza tym każda dioda wymagałaby 4 kabli, co utrudniałoby ruchy dłoni
+\item \textit{Bezprzewodowe przesyłanie danych do komputera za pomocą modułu Bluetooth} -- zrezygnowano, bo okazało się za wolne (BaudRate 9600 nie wystarcza)
 \end{itemize}
 \subsection{Pomysły na rozwinięcie projektu}
 \begin{itemize}
