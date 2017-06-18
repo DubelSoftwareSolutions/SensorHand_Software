@@ -13,30 +13,30 @@
 #include "Accelerometer.h"
 #include "DataProcessing.h"
 
-uint16_t g_ThumbMinReadings[3] = {3100,1900,1900};
-uint16_t g_ThumbMaxReadings[3] = {2100,2860,2860};
+uint16_t g_ThumbMinReadings[3] = {2500,1850,1850};
+uint16_t g_ThumbMaxReadings[3] = {2130,2500,2500};
 float g_ThumbMinAngles[3] = {0.0,0.0,0.0};
 float g_ThumbMaxAngles[3] = {90.0,45.0,70.0};
 
-uint16_t g_IndexMinReadings[3] = {1990,1820,1820};
-uint16_t g_IndexMaxReadings[3] = {3120,3500,3500};
+uint16_t g_IndexMinReadings[3] = {1920,1800,1800};
+uint16_t g_IndexMaxReadings[3] = {2760,3200,3200};
 float g_IndexMinAngles[3] = {0.0,0.0,0.0};
-float g_IndexMaxAngles[3] = {90.0,130.0,55.0};
+float g_IndexMaxAngles[3] = {85.0,130.0,55.0};
 
-uint16_t g_MiddleMinReadings[3] = {1990,1820,1820};
-uint16_t g_MiddleMaxReadings[3] = {3120,3500,3500};
+uint16_t g_MiddleMinReadings[3] = {1920,1650,1650};
+uint16_t g_MiddleMaxReadings[3] = {2650,2880,2880};
 float g_MiddleMinAngles[3] = {0.0,0.0,0.0};
 float g_MiddleMaxAngles[3] = {90.0,120.0,70.0};
 
-uint16_t g_RingMinReadings[3] = {1990,1820,1820};
-uint16_t g_RingMaxReadings[3] = {3120,3500,3500};
+uint16_t g_RingMinReadings[3] = {1750,1560,1560};
+uint16_t g_RingMaxReadings[3] = {2300,2300,2300};
 float g_RingMinAngles[3] = {0.0,0.0,0.0};
-float g_RingMaxAngles[3] = {90.0,120.0,70.0};
+float g_RingMaxAngles[3] = {80.0,100.0,85.0};
 
-uint16_t g_PinkyMinReadings[3] = {1990,1820,1820};
-uint16_t g_PinkyMaxReadings[3] = {3120,3500,3500};
+uint16_t g_PinkyMinReadings[3] = {1520,1440,1440};
+uint16_t g_PinkyMaxReadings[3] = {2580,2930,2930};
 float g_PinkyMinAngles[3] = {0.0,0.0,0.0};
-float g_PinkyMaxAngles[3] = {90.0,120.0,70.0};
+float g_PinkyMaxAngles[3] = {90.0,90.0,90.0};
 
 float UnfilteredValue;
 float LowPassFilterBeta;
