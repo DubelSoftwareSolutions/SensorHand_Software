@@ -157,7 +157,7 @@
 
 \section{Opis czujników}
 \begin{itemize}
-\item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku [rys. \ref{fig:wykresy_fsr-400}].
+\item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
 \item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- Flex Sensory 2.2" firmy Spectra Symbol}. Zgięcie tych sensorów powoduje wzrost rezystancji.
 \item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery został użyty do określenia orientacji rękawicy względem wektora grawitacji.
 \end{itemize}
@@ -191,12 +191,6 @@ Obsługa taka sama jak w: \nameref{czujniki_nacisku}.
 \subsubsection{Akcelerometr}
 Z akcelerometrem komunikacja następuje po interfejsie I$^2$C.
 
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=0.8\textwidth]{images/fsr-400.jpg}
-\caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
-\label{fig:wykresy_fsr-400}
-\end{figure}
 
 \begin{table}[!htb]
 \centering
@@ -288,6 +282,7 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \label{fig:rekawica2}
 \end{figure}
 
+\newpage
 \subsubsection{Płytka sterująca}
 Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32DiscoveryF3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku [rys.\ref{fig:discovery}].\\
 Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach goldpin, co umożliwia używanie jej jako moduł i odłączenie od urządzenia.
@@ -309,28 +304,84 @@ Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach gol
 \label{fig:gotowa_rekawica}
 \end{figure}
 
+\newpage
 \subsubsection{Czujniki}
 Opis czujników został przedstawiony w rozdziale \textit{Opis czujników}. Aby umożliwić pomiar stworzono dzielniki napięciowe dla czujników, których schemat został przedstawiony na rysunku [rys.\ref{fig:dzielnik}].
 \begin{figure}[!htb]
 \centering
-%\includegraphics[width=.8\textwidth]{./images/Dzielniki.png}
+\includegraphics[width=.8\textwidth]{./images/Dzielniki.png}
 \caption{Schematy dzielników napięciowych do pomiarów \label{fig:dzielnik}}
 \end{figure}
 
 \subsubsection{Komunikacja}
+Zapewniono wysyłanie pomiarów i komunikację z komputerem przez 3 media:
+\begin{itemize}
+\item USB -- wirtualizacja portu szeregowego z wykorzystaniem middleware USB CDC
+\item UART -- konwerter USB$\rightarrow$UART firmy Prolific (115200 b/s)
+\item BLUETOOTH -- moduł HC -- 06 (zrezygnowano z tego rozwiązania z uwagi na małą maksymalną prędkość przesyłania (9600 b/s)
+\end{itemize}
+Komputer odbiera dane za pomocą portu szeregowego.
 
 \subsubsection{Przewody}
 Do realizacji połączeń elektrycznych wykorzystano cienkie przewody wielożyłowe. Ideowy schemat połączeń został przedstawiony na rysunku [rys. \ref{fig:kabelki}].
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=.8\textwidth]{./images/SchematIdeowy.png}
+\includegraphics[width=.6\textwidth]{./images/SchematIdeowy.png}
 \caption{Ideowy schemat połączeń na płytce \label{fig:kabelki}}
 \end{figure}
 
+\subsubsection{Interfejs Użytkownika}
+\begin{itemize}
+
+\item Do zmiany metody przesyłania danych wykorzystano przycisk umieszczony na płytce Discovery (niebieski). 
+\item Aktualna metoda przesyłania danych ukazana jest za pomocą trzech LEDów umieszczonych na płytce Discovery.
+\item Zrezygnowano z wizualizacji nacisku za pomoca diod RGB.
+\end{itemize}
 
 \subsection{Software}
-\subsubsection{Połączenie z komputerem}
-Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
+\subsubsection{Przetworznik Pomiarowy}
+\begin{itemize}
+\item Rozdzielczość przetwornika: 12 bitów
+\item Zakres pomiarowy: (0 -- 4095: int), (0 -- 3,3 V)
+\item Pomiar ciągły z wykorzystaniem DMA
+\item Czas próbkowania: 181,5 Cykli
+\item Częstotliwość zegara: 32 MHz
+\end{itemize}
+
+\subsubsection{Przesyłanie danych}
+\begin{itemize}
+\item Typ danych: float
+\item Sposób odbierania danych: COM Port
+\item Sposób kodowania wiadomości: ANSI
+\item Suma kontrolna: brak
+\item Struktura wiadomości: 1 linia danych
+\begin{itemize}
+\item Znak początku 'S'
+\item 15x float -- kąty obrotu przegubów palców $(\pm 180,0 ^\circ$)
+\item 5x int -- dane z czujników nacisku (0 -- 255)
+\item 3x float -- kąty obrotu parametryzacji Roll Pitch Yaw $(\pm 180,0^\circ$)
+\item 3x float -- przyśpieszenie w trzech osiach XYZ $(\pm 18 \frac{m}{s^2})$
+\item 10x float -- odczyty czujników ugięcia (0,0 -- 3,3 V)
+\item Znak końca 'R'
+\item Linia zakończona znakami \textbackslash r \textbackslash n
+\end{itemize}
+\item Zrezygnowano ze szczegółowego opisu niskopoziomowego ramki danych, gdyż jest on obsługiwany przez dostępne biblioteki
+\end{itemize}
+\textbf{Bluetooth (UART)}
+\begin{itemize}
+\item Baud Rate: 9600 b/s (115200 b/s)
+\item Długość słowa: 8 bit
+\item Parzystość: brak
+\item Bity stopu: 1
+\item Nadpróbkowanie: 16 próbek
+\item Wykorzystanie przerwań
+\end{itemize}
+\textbf{USB}
+\begin{itemize}
+\item Szybkość: 12 Mb/s
+\item Maksymalna wielkość pakietu: 64 B
+\end{itemize}
+
 \subsubsection{Struktury danych}
 Dane z czujników są przechowywane w następujących strukturach:
 \begin{figure}[!htb]
