@@ -26,8 +26,8 @@
 %\usepackage[]{natbib} %bibliografia
 \usepackage{graphicx} %wstawianie obrazów i do tablicy
 %usepackage{wrapfig} %obrazy przyległe do tekstu
-\usepackage{mathtools}  %funkcje matematyczne
-\mathtoolsset{showonlyrefs} %nienumerowanie wzorów matematycznych
+%\usepackage{mathtools}  %funkcje matematyczne
+%\mathtoolsset{showonlyrefs} %nienumerowanie wzorów matematycznych
 \usepackage{float}
 \usepackage{booktabs} % do tablicy
 \usepackage{multirow} % do tablicy
@@ -40,9 +40,9 @@
 \pagestyle{plain} % zwykły tekst
 %\usepackage{indentfirst} %pierwszy paragraf z wcięciem
 \usepackage{tabularx} %tablica o zadanej szerokości
-\usepackage{makecell}
+%\usepackage{makecell}
 \usepackage{listings}
-\usepackage{mdframed}
+%\usepackage{mdframed}
 
 \lstset{
 	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
@@ -257,6 +257,8 @@ Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\
 \end{table}
 
 \section{Elementy składowe projektu}
+
+\subsection{Hardware}
 Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
  Przetestowano kilka ustawień czujników i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni 2 listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
  
@@ -286,22 +288,12 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \label{fig:rekawica2}
 \end{figure}
 
-%\subsection{Hardware}
-%Rękawica składa się z następujących elementów:
-%\begin{itemize}
-%\item 3 czujniki nacisku -- kciuk, palec wskazujący i palec środkowy
-%\item 10 czujników ugięcia -- po 2 na każdy palec
-%\item Akcelerometr
-%\item Moduł sterujący -- płytka STM32F3 - Discovery
-%\item Dzielniki napięciowe
-%\item Konwerter USB-UART
-%\item 
-%\end{itemize}
 
-\subsection{Połączenie z komputerem}
+\subsubsection{Połączenie z komputerem}
 Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
 
-\subsection{Struktury danych}
+\subsection{Software}
+\subsubsection{Struktury danych}
 Dane z czujników są przechowywane w następujacych strukturach:
 \begin{lstlisting}[frame=single]
 #define FINGER_JOINT_COUNT 3
@@ -333,9 +325,31 @@ typedef struct s_JointAngles
 \end{lstlisting}
 
 
-\subsection{Wizualizacja dłoni}
+\subsection{Wizualizacja}
+\subsubsection{Interfejs graficzny}
 Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujników. Powstała we frameworku Qt. Aktualny interfejs graficzny wyświetla uproszczony model dłoni [rys. \ref{fig:wds}].
-\subsection{Pomiar parametrów w czasie rzeczywistym}
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[width=0.8\textwidth]{images/aktualnyinterfejsgraficzny.png}
+\caption{Aktualny interfejs graficzny}
+\label{fig:wds}
+\end{figure}
+
+\subsubsection{Funkcjonalności aplikacji}
+Zostanie stworzona aplikacja okienkowa do wizualizacji napisana w języku C++ z użyciem biblioteki Qt.\\
+\begin{itemize}
+\item Wizualizacja poruszania modelem dłoni na podstawie odczytów z czujników i akcelerometru.
+\item Wybór opcji połączenia z rękawicą sensoryczną (Bluetooth, USB, UART)
+\item Uruchomienie i zatrzymanie pomiarów, wykonanie pojedynczego pomiaru.
+\item Skalowanie modelu dłoni poprzez wpisanie rozmiarów oraz suwak.
+\item Zmiana położenia i orientacji kamery z poziomu interfejsu graficznego.
+\item Zmiana rotacji modelu dłoni (RPY) poprzez suwaki interfejsu graficznego.
+\item Wyświetlanie liczbowo wyników pomiarów i możliwość zapisania ich do pliku.
+\item Wyświetlenie dynamicznego wykresu odczytu nacisku wybranego palca w czasie.
+\end{itemize}
+
+\subsection{Pomiary} %Trochę poleciałaś z tym czasem rzeczywistym :D
 Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:\\\\
 \textbf{Dane z czujników nacisku:}
 \begin{itemize}
@@ -390,13 +404,6 @@ Maksymalne zmierzone wartości kątów w przegubach: 90.0,90.0,90.0\\
 
 \begin{figure}[htb!]
 \centering
-\includegraphics[width=0.8\textwidth]{images/aktualnyinterfejsgraficzny.png}
-\caption{Aktualny interfejs graficzny}
-\label{fig:wds}
-\end{figure}
-
-\begin{figure}[htb!]
-\centering
 \begin{subfigure}{.5\textwidth}
 	\centering
 	\includegraphics[width=.9\textwidth]{images/nacisk.png}
@@ -422,12 +429,12 @@ Wykrywanie gestów sprowadza się do ustawienia odpowiednich progów na niektór
 Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach (\ref{fig:term}, \ref{fig:stmstudio}).\\
 \begin{figure}
 \centering
-%\includegraphics[width=\textwidth]{./images/terminal.png}
+\includegraphics[width=\textwidth]{./images/terminal.png}
 \caption{Wysyłane dane wyświetlone na terminalu \label{fig:term}}
 \end{figure}
 \begin{figure}
 \centering
-%\includegraphics[width=\textwidth]{./images/stmstudio.png}
+\includegraphics[width=\textwidth]{./images/stmstudio.png}
 \caption{Pobierane dane wyświetlone w STMStudio\label{fig:stmstudio}}
 \end{figure}
 
@@ -437,11 +444,11 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
 \centering
     \begin{subfigure}{.5\textwidth}
     \centering
-%      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
     \centering
-%      \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
      \end{subfigure}
     \caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
 \flushleft Metoda identyfikacji: Kąty we wszystkich przegubach przekraczają określoną wartość.
@@ -450,10 +457,10 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
      \end{subfigure}
     \caption{Gest -- otwarta dłoń \label{fig:Palm}}
 \flushleft Metoda identyfikacji: Kąty we wszystkich przegubach nie przekraczają określonej wartości.
@@ -462,10 +469,10 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
      \end{subfigure}
     \caption{Gest -- OK \label{fig:OK}}
 \flushleft Metoda identyfikacji: Nacisk na palcach przekracza określona wartość.
@@ -474,10 +481,10 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
      \end{subfigure}
     \caption{Gest -- pacyfka\label{fig:Peace}}
 \flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców wskazującego i środkowego nie przekraczają określonej wartości. Kąty w przegubach palców serdecznego i małego przekraczają określoną wartość.
@@ -486,10 +493,10 @@ Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
      \end{subfigure}
     \caption{Gest -- wskazywanie palcem \label{fig:Point}}
 \flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców środkowego, serdecznego i małego przekraczają określoną wartość. Kąty w przegubach palców wskazującego i kciuka nie przekraczają określonej wartości.
