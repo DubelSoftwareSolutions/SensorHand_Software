@@ -1,0 +1,27 @@
+1. Brak krytycznej oceny działań (np zweryfikowania ukończonych zadań z harmonogramem)
+5. Zrobione jest jeszcze przetwarzanie danych na wolty i m/s2 i wymyśliłem sposób na przetwarzanie ich na kąty w przgubach (aproksymacja), ale żeby to zrobić muszę mieć gotową rękawicę
+6. Możesz dopisać o wizualizacji w STMStudio i jeszcze nie działającej aplikacji graficznej. Wrzucimy mu screeny jak się uda
+7. Napisz o tym że zamówione są elementy ale brak kontaktu z  laborantem i nie wiemy czy są / czy będą
+8. Dobrze byłoby napisać o tym co on mówił, czyli że nie zrobiliśmy badań przesłuchów na czujnikach ani rozpoznawania ruchów
+
+
+1. (22.03.2017) Zakup elementów potrzebnych do konstrukcji
+(Krzysztof Dąbek) POCZĄTEK KWIETNIA
+2. (30.03.2017) Nawiązanie łączności płytki z komputerem
+(USB/Bluetooth) POCZĄTEK KWIETNIA
+(Krzysztof Dąbek, Dymitr Choroszczak)
+3. (13.04.2017) Zaprogramowanie odczytu danych z czujników
+(tensometrów, czujników nacisku oraz akcelerometru)
+(Anna Postawka, Krzysztof Dąbek, Dymitr Choroszczak) AKCELEROMETR 2. TYDZ. MAJA, RESZTA POCZ. MAJA
+4. (27.04.2017) Montaż czujników oraz płytki na rękawicy
+(Anna Postawka) MIESIĄC PO CZASIE
+5. (11.05.2017) Oprogramowanie wstępnego przetwarzania danych przez
+płytkę 
+(Dymitr Choroszczak) PRZED CZASEM, 2.05
+6. (25.05.2017) Przygotowanie gotowej aplikacji
+(Anna Postawka, Krzysztof Dąbek, Dymitr Choroszczak) WSTĘPNA APLIKACJA
+7. (01.06.2017) Przeprowadzenie testów oraz wprowadzenie
+ewentualnych poprawek
+(Anna Postawka, Krzysztof Dąbek) NA CZAS, JAKIES TAM TESTY SĄ
+8. (15.06.2017) Dokumentacja projektu
+(Dymitr Choroszczak) TODO

@@ -1,0 +1,75 @@
+Do dokumentacji:
+- Pomiary kątów w przegubach na podstawie czujników ugięcia (plik .xls)
+- Przykładowe gesty i przykład metody wykrywania:
+	-pięść
+	-otwarta dłoń
+	-wskazywanie
+	-zetknięcie palców
+	-...
+	-Do każdego:
+		-Zdjęcie rękawicy w geście
+		-screen z aplikacji w geście
+		-metoda (np. odczyty z czujników nacisku 0 i 1)
+-Screen z STMStudio
+-Problemy podczas konstrukcji:
+	-Zamówienie na katedrę
+	-Aproksymacja kątów z jednego akcelerometru (nie działa dobrze :/)
+	-Interpolacja / aproksymacja trudna w C
+	-Trudne do wykonania dokładne pomiary kątów
+	-Mała dokładność czujników, przesuwanie się ich na rękawicy
+	-Problem z umieszczeniem czujnika rotacji kciuka
+	-Różnice w dłoniach konstruktorów
+	-Mała powierzchnia czujników nacisku
+-Pomysły na rozwinięcie projektu:
+	-RPY z wielu akcelerometrów
+	-Dokładniejsze pomiary i metoda interpolacji
+	-Wykrywanie większej ilości gestów
+	-Sterowanie robotem za pomocą gestów
+	-Dodatkowe czujniki nacisku
+-Popatrzeć co jest nie zrobione z założeń projektowych i dodać dlaczego
+
+Aplikacja WDS (Qt):
+-Pełny model dłoni
+-Ruch przegubów palców
+-Wizualizacj nacisku kolorem
+-Aktualizacja dynamiczna
+-akcelerometr (tylko ruch Pitch)
+-Ręczna zmiana orientacji modelu
+-Komunikacja przez USB, UART, Bluetooth
+-Wyświetlanie danych dla wszystkich palców i akcelerometru
+-Dynamiczne wykresy nacisu
+-Screen z aplikacji (zaktualizować)
+
+Rękawica (Hardware):
+- 3 czujniki nacisku
+- 10 czujników ugięcia (5 palców)
+- akcelerometr
+- płytka discovery na goldpinach (jako moduł sterujący)
+- dzielniki napięciowe (zrobić ładny rysunek)
+- okablowanie
+- diody WScośtamcośtam na knykciach (jeszcze nie ma ale będą na poniedziałek)
+- Połączenie przez USB, UART, Bluetooth
+- z Bluetooth zrezygnowaliśmy, bo jest za wolny BaudRate 9600 bps to za mało, nieładna wizualizacja, komputer się nie łączy z bluetoothem bo nie, jebać mój komputer
+- UART Prolfic cośtam (taki niebieski z botlandu)
+- USB z Middleware USB CDC od STMicroelectronics
+- Zdjęcie założonej rękawicy (zaktualizować)
+
+Program rękawicy:
+-Akcelerometr po I2C
+-Czujniki po ADC z DMA
+-Przetwarzanie danych
+	-Nacisk na wolty
+	-nacisk na kolor HSV
+	-ugięcie na wolty
+	- ugięcie interpolowane liniowo na kąty w przegubach
+	-na wszystko filtr dolnoprzepustowy o zmiennym współczynniku (zależnie od metody wysyłania)
+	-akcelerometr na mps2
+-Struktury do przechowywania danych MeasurementStruct.h
+-Transmisja uruchamiana timerem
+-Zmiana metody wysyłania przyciskiem (niebieskim)
+-Nie działa ponowna zmiana na UART
+-Maksymalna częstotliwość wysyłania ramki ograniczona zależnie od metody wysyłania
+-Metoda wysyłania sygnalizowana diodami na płytce
+-Ramka "S kąty nacisk Roll Pitch Yaw Akcelerometr ugięcie R" (tu screen z terminala)
+-Przetwarzanie HSV na RGB dla diod
+-Sterowanie diodami oparte WS.. na zewnętrznej bibliotece
