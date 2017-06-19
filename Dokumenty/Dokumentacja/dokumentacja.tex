@@ -155,7 +155,7 @@
 \item Uproszczony model dłoni w wizualizacji 3D
 \end{itemize}
 
-\section{Opis czujników}
+\section{Opis czujników} \label{opis_czujnikow}
 \begin{itemize}
 \item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku [rys. \ref{fig:wykresy_fsr-400}].
 \item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- Flex Sensory 2.2" firmy Spectra Symbol}. Zgięcie tych sensorów powoduje wzrost rezystancji.
@@ -176,7 +176,7 @@ Patrz: Tabela \ref{table:tabela_fsr-400}, Tabela \ref{table:tabela_flexsensor}, 
 \item Zakres rezystancji: 25 kOhm - 125 kOhm
 \item Rezystor pomiarowy do dzielnika: 62 kOhm
 \end{itemize}
-\subsubsection{Dane z akcelerometru}
+\subsubsection{Dane akcelerometru}
 \begin{itemize}
 \item Protokół komunikacyjny: $I^2C$
 \item Ilość osi: 3
@@ -289,7 +289,7 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \end{figure}
 
 \subsubsection{Płytka sterująca}
-Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32DiscoveryF3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku [rys.\ref{fig:discovery}].\\
+Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32DiscoveryF3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku \ref{fig:discovery}.\\
 Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach goldpin, co umożliwia używanie jej jako moduł i odłączenie od urządzenia.
 \begin{figure}[!htb]
 \centering
@@ -297,30 +297,29 @@ Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach gol
 	\centering
 	\includegraphics[height=.35\textheight]{images/stm32f3layout.png}
 	\caption{Rozmieszczenie elementów}
-	\label{fig:gotowa}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
 	\centering
 	\includegraphics[height=.35\textheight]{images/32f3discovery.jpg}
 	\caption{Wygląd płytki}
-	\label{fig:gotowa2}
 \end{subfigure}
 \caption{Główna płytka sterująca}
-\label{fig:gotowa_rekawica}
+\label{fig:discovery}
 \end{figure}
 
 \subsubsection{Czujniki}
-Opis czujników został przedstawiony w rozdziale \textit{Opis czujników}. Aby umożliwić pomiar stworzono dzielniki napięciowe dla czujników, których schemat został przedstawiony na rysunku [rys.\ref{fig:dzielnik}].
+Informacje o sensorach zostały przedstawione w rozdziale: \nameref{opis_czujnikow}. Aby umożliwić pomiar, stworzono dzielniki napięciowe dla czujników, których schemat został przedstawiony na rysunku \ref{fig:dzielnik}.
 \begin{figure}[!htb]
 \centering
 %\includegraphics[width=.8\textwidth]{./images/Dzielniki.png}
-\caption{Schematy dzielników napięciowych do pomiarów \label{fig:dzielnik}}
+\caption{Schematy dzielników napięciowych do pomiarów 
+\label{fig:dzielnik}}
 \end{figure}
 
 \subsubsection{Komunikacja}
 
 \subsubsection{Przewody}
-Do realizacji połączeń elektrycznych wykorzystano cienkie przewody wielożyłowe. Ideowy schemat połączeń został przedstawiony na rysunku [rys. \ref{fig:kabelki}].
+Do realizacji połączeń elektrycznych wykorzystano cienkie przewody wielożyłowe. Ideowy schemat połączeń został przedstawiony na rysunku \ref{fig:kabelki}.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=.8\textwidth]{./images/SchematIdeowy.png}
@@ -465,11 +464,11 @@ Zostanie stworzona aplikacja okienkowa do wizualizacji napisana w języku C++ z 
 
 \newpage
 \section{Badania z wykorzystaniem rękawicy}
-Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. Takie gesty mogą posłużyć sterowaniu robotem lub systemem automatyki (np. budynkowej). Przyporządkowanie gestu do wykonywanej czynności daje możliwość kontroli systemu.\\
-Wykrywanie gestów sprowadza się do ustawienia odpowiednich progów na niektórych czujnikach ugięcia i nacisku, po których przekroczeniu sygnalizuje się wykrycie gestu.\\
+Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. Mogą też posłużyć do sterowania robotami lub systemami automatyki (np. budynkowej). Przyporządkowanie gestu do wykonywanej czynności daje możliwość kontroli systemu.\\
+Identyfikacja gestów sprowadza się do ustawienia odpowiednich progów na niektórych czujnikach ugięcia i nacisku, po których przekroczeniu sygnalizuje się wykrycie gestu.
 
 \subsection{Dane pomiarowe}
-Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach (\ref{fig:term}, \ref{fig:stmstudio}).\\
+Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach \ref{fig:term}., \ref{fig:stmstudio}.\\
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{./images/terminal.png}
