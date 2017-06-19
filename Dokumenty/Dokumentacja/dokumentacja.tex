@@ -289,15 +289,54 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \end{figure}
 
 
-\subsubsection{Połączenie z komputerem}
-Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
+\subsubsection{Płytka sterująca}
+Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32DiscoveryF3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku [rys.\ref{fig:discovery}].\\
+Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach goldpin, co umożliwia używanie jej jako moduł i odłączenie od urządzenia.
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[height=.35\textheight]{images/stm32f3layout.png}
+	\caption{Rozmieszczenie elementów}
+	\label{fig:gotowa}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[height=.35\textheight]{images/32f3discovery.jpg}
+	\caption{Wygląd płytki}
+	\label{fig:gotowa2}
+\end{subfigure}
+\caption{Główna płytka sterująca}
+\label{fig:gotowa_rekawica}
+\end{figure}
+
+\subsubsection{Czujniki}
+Opis czujników został przedstawiony w rozdziale \textit{Opis czujników}. Aby umożliwić pomiar stworzono dzielniki napięciowe dla czujników, których schemat został przedstawiony na rysunku [rys.\ref{fig:dzielnik}].
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.8\textwidth]{./images/Dzielniki.png}
+\caption{Schematy dzielników napięciowych do pomiarów \label{fig:dzielnik}}
+\end{figure}
+
+\subsubsection{Komunikacja}
+
+\subsubsection{Przewody}
+Do realizacji połączeń elektrycznych wykorzystano cienkie przewody wielożyłowe. Ideowy schemat połączeń został przedstawiony na rysunku [rys. \ref{fig:kabelki}].
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.8\textwidth]{./images/SchematIdeowy.png}
+\caption{Ideowy schemat połączeń na płytce \label{fig:kabelki}}
+\end{figure}
+
 
 \subsection{Software}
 \subsubsection{Struktury danych}
-Dane z czujników są przechowywane w następujacych strukturach:
+Dane z czujników są przechowywane w następujących strukturach:
+\begin{figure}[!htb]
 \begin{lstlisting}[frame=single]
 #define FINGER_JOINT_COUNT 3
 #define FINGER_COUNT 5
+
 #define FLEX_SENSOR_COUNT 10
 #define TENSION_SENSOR_COUNT 5
 #define ACCELEROMETER_AXIS_COUNT 3
@@ -324,6 +363,7 @@ typedef struct s_JointAngles
 } s_JointAngles;
 \end{lstlisting}
 
+\end{figure}
 
 \subsection{Wizualizacja}
 \subsubsection{Interfejs graficzny}
