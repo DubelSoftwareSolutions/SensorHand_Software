@@ -286,22 +286,9 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \label{fig:rekawica2}
 \end{figure}
 
-%\subsection{Hardware}
-%Rękawica składa się z następujących elementów:
-%\begin{itemize}
-%\item 3 czujniki nacisku -- kciuk, palec wskazujący i palec środkowy
-%\item 10 czujników ugięcia -- po 2 na każdy palec
-%\item Akcelerometr
-%\item Moduł sterujący -- płytka STM32F3 - Discovery
-%\item Dzielniki napięciowe
-%\item Konwerter USB-UART
-%\item 
-%\end{itemize}
-
-\subsection{Połączenie z komputerem}
-Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
-
-\subsection{Struktury danych}
+\subsection{Software}
+Program został napisany w języku C.
+\subsubsection{Struktury danych}
 Dane z czujników są przechowywane w następujacych strukturach:
 \begin{lstlisting}[frame=single]
 #define FINGER_JOINT_COUNT 3
@@ -333,9 +320,7 @@ typedef struct s_JointAngles
 \end{lstlisting}
 
 
-\subsection{Wizualizacja dłoni}
-Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujników. Powstała we frameworku Qt. Aktualny interfejs graficzny wyświetla uproszczony model dłoni [rys. \ref{fig:wds}].
-\subsection{Pomiar parametrów w czasie rzeczywistym}
+\subsubsection{Pomiar parametrów w czasie rzeczywistym}
 Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:\\\\
 \textbf{Dane z czujników nacisku:}
 \begin{itemize}
@@ -413,6 +398,10 @@ Maksymalne zmierzone wartości kątów w przegubach: 90.0,90.0,90.0\\
 \label{fig:testy}
 \end{figure}
 
+
+\subsection{Wizualizacja dłoni}
+Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujników. Powstała we frameworku Qt. Aktualny interfejs graficzny wyświetla uproszczony model dłoni [rys. \ref{fig:wds}].
+
 \newpage
 \section{Badania z wykorzystaniem rękawicy}
 Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładniejszego wykrycia konkretnych gestów ludzkiej dłoni na podstawie odczytów z czujników. Takie badania mogą być wykorzystywane m.in. przy rozwoju protez biomedycznych. Takie gesty mogą posłużyć sterowaniu robotem lub systemem automatyki (np. budynkowej). Przyporządkowanie gestu do wykonywanej czynności daje możliwość kontroli systemu.\\
@@ -422,77 +411,83 @@ Wykrywanie gestów sprowadza się do ustawienia odpowiednich progów na niektór
 Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach (\ref{fig:term}, \ref{fig:stmstudio}).\\
 \begin{figure}
 \centering
-%\includegraphics[width=\textwidth]{./images/terminal.png}
+\includegraphics[width=0.9\textwidth]{./images/terminal.PNG}
 \caption{Wysyłane dane wyświetlone na terminalu \label{fig:term}}
 \end{figure}
 \begin{figure}
 \centering
-%\includegraphics[width=\textwidth]{./images/stmstudio.png}
+\includegraphics[width=0.9\textwidth]{./images/STMStudio.PNG}
 \caption{Pobierane dane wyświetlone w STMStudio\label{fig:stmstudio}}
 \end{figure}
 
-\subsection{Przykładowe gesty}
-Badane gesty zostały przedstawione na rysunkach (\ref{fig:Fist}, \ref{fig:Palm}, \ref{fig:OK}, \ref{fig:Peace}, \ref{fig:Point}).\\
+\subsection{Przykładowe gesty i metoda ich identyfikacji}
+\paragraph{Zaciśnięta pięść}
+Kąty we wszystkich przegubach przekraczają określoną wartość. (rys. \ref{fig:Fist})
+\paragraph{Otwarta dłoń}
+Kąty we wszystkich przegubach nie przekraczają określonej wartości. (rys. \ref{fig:Palm})
+\paragraph{OK}
+Nacisk na palcach przekracza określona wartość. (rys. \ref{fig:OK})
+\paragraph{Pacyfka}
+Kąty w przegubach kciuka oraz palców wskazującego i środkowego nie przekraczają określonej wartości. Kąty w przegubach palców serdecznego i małego przekraczają określoną wartość. (rys. \ref{fig:Peace})
+\paragraph{Wskazywanie palcem}
+Kąty w przegubach kciuka oraz palców środkowego, serdecznego i małego przekraczają określoną wartość. Kąty w przegubach palców wskazującego i kciuka nie przekraczają określonej wartości. (rys. \ref{fig:Point})
+
+
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
     \centering
-%      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
     \centering
-%      \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/FistQt.PNG}
      \end{subfigure}
     \caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
-\flushleft Metoda identyfikacji: Kąty we wszystkich przegubach przekraczają określoną wartość.
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PalmQt.PNG}
      \end{subfigure}
     \caption{Gest -- otwarta dłoń \label{fig:Palm}}
-\flushleft Metoda identyfikacji: Kąty we wszystkich przegubach nie przekraczają określonej wartości.
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/OKQt.PNG}
      \end{subfigure}
     \caption{Gest -- OK \label{fig:OK}}
-\flushleft Metoda identyfikacji: Nacisk na palcach przekracza określona wartość.
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.PNG}
      \end{subfigure}
     \caption{Gest -- pacyfka\label{fig:Peace}}
-\flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców wskazującego i środkowego nie przekraczają określonej wartości. Kąty w przegubach palców serdecznego i małego przekraczają określoną wartość.
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
+      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
      \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
-%      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
+      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
      \end{subfigure}
     \caption{Gest -- wskazywanie palcem \label{fig:Point}}
-\flushleft Metoda identyfikacji: Kąty w przegubach kciuka oraz palców środkowego, serdecznego i małego przekraczają określoną wartość. Kąty w przegubach palców wskazującego i kciuka nie przekraczają określonej wartości.
 \end{figure}
 
 \newpage
