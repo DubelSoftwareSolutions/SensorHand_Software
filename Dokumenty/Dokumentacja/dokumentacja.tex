@@ -157,7 +157,7 @@
 
 \section{Opis czujników} \label{opis_czujnikow}
 \begin{itemize}
-\item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku [rys. \ref{fig:wykresy_fsr-400}].
+\item Na opuszkach palców zamontowano \textbf{czujniki nacisku FSR-400 Short od Interlink Electronics}. Spadek rezystancji przy przyłożonej sile pozwala zmierzyć siłę nacisku.
 \item Do wykrycia zgięcia stawów międzypaliczkowych i śródręczno-paliczkowych oraz stawów kciuka zastosowano \textbf{czujniki ugięcia -- Flex Sensory 2.2" firmy Spectra Symbol}. Zgięcie tych sensorów powoduje wzrost rezystancji.
 \item \textbf{Akcelerometr LSM303DLHC}, znajdujący się na płytce Discovery został użyty do określenia orientacji rękawicy względem wektora grawitacji.
 \end{itemize}
@@ -191,12 +191,6 @@ Obsługa taka sama jak w: \nameref{czujniki_nacisku}.
 \subsubsection{Akcelerometr}
 Z akcelerometrem komunikacja następuje po interfejsie I$^2$C.
 
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=0.8\textwidth]{images/fsr-400.jpg}
-\caption{Układ pomiarowy oraz wykresy zależności napięć i rezystancji od przyłożonej siły dla czujnika FSR-400}
-\label{fig:wykresy_fsr-400}
-\end{figure}
 
 \begin{table}[!htb]
 \centering
@@ -259,9 +253,14 @@ Zakres magnetometru &  od $\pm$1,3 do $\pm$8,1 gauss \\
 \section{Elementy składowe projektu}
 
 \subsection{Hardware}
-Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
- Przetestowano kilka ustawień czujników i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni 2 listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
- 
+Rękawica sensoryczna zbiera dane z prawej ręki. Czujniki ugięcia przyszyto na zewnętrznej stronie dłoni [rys. \ref{fig:gotowa}].
+ Przetestowano kilka ustawień czujników [rys. \ref{fig:rekawica2}] i takie zdaje się najlepiej spełniać założenia, czyli poprawnie odczytywać zgięcia konkretnych stawów palców, nie ograniczając przy tym ruchów dłoni. Czujniki nacisku przymocowano na opuszkach [rys. \ref{fig:gotowa2}]. Zostały one przyklejone klejem błyskawicznym. Przymocowano również na wierzchu dłoni dwie listwy żeńskie do wpięcia płytki Discovery F3, aby móc pobierać dane z akcelerometru i wykrywać obrót ręki [rys. \ref{fig:gotowa}].
+\begin{itemize}
+\item 3 czujniki nacisku -- na opuszkach 3 palców: kciuka, palca wskazującego i palca środkowego
+\item 10 czujników ugięcia -- po 2 na każdy z 5-ciu palców prawej dłoni
+\item 1 akcelerometr
+\end{itemize}
+
 \begin{figure}[!htb]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -288,8 +287,9 @@ Rękawica sensoryczna zbiera dane z prawej dłoni. Czujniki ugięcia przyszyto n
 \label{fig:rekawica2}
 \end{figure}
 
+\newpage
 \subsubsection{Płytka sterująca}
-Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32DiscoveryF3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku \ref{fig:discovery}.\\
+Do sterowania pomiarami i połączeniem z komputerem wykorzystano płytkę STM32 Discovery F3. Na płytce znajduje się mikrokotroler STM32F303VCT6, którego piny wyprowadzone są na podwójne listwy goldpin. Dokumentację oraz schemat połączeń płytki można znaleźć na stronie producenta. Wygląd płytki oraz rozmieszczenie elementów ukazano na rysunku \ref{fig:discovery}.\\
 Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach goldpin, co umożliwia używanie jej jako moduł i odłączenie od urządzenia.
 \begin{figure}[!htb]
 \centering
@@ -307,29 +307,85 @@ Płytka została umieszczona na rękawicy na przyszytych żeńskich listwach gol
 \label{fig:discovery}
 \end{figure}
 
+\newpage
 \subsubsection{Czujniki}
 Informacje o sensorach zostały przedstawione w rozdziale: \nameref{opis_czujnikow}. Aby umożliwić pomiar, stworzono dzielniki napięciowe dla czujników, których schemat został przedstawiony na rysunku \ref{fig:dzielnik}.
 \begin{figure}[!htb]
 \centering
-%\includegraphics[width=.8\textwidth]{./images/Dzielniki.png}
+\includegraphics[width=.8\textwidth]{./images/dzielniki.png}
 \caption{Schematy dzielników napięciowych do pomiarów 
 \label{fig:dzielnik}}
 \end{figure}
 
 \subsubsection{Komunikacja}
+Zapewniono wysyłanie pomiarów i komunikację z komputerem przez 3 media:
+\begin{itemize}
+\item USB -- wirtualizacja portu szeregowego z wykorzystaniem middleware USB CDC
+\item UART -- konwerter USB$\rightarrow$UART firmy Prolific (115200 b/s)
+\item BLUETOOTH -- moduł HC-06 (zrezygnowano z tego rozwiązania z uwagi na małą maksymalną prędkość przesyłania (9600 b/s))
+\end{itemize}
+Komputer odbiera dane za pomocą portu szeregowego.
 
 \subsubsection{Przewody}
 Do realizacji połączeń elektrycznych wykorzystano cienkie przewody wielożyłowe. Ideowy schemat połączeń został przedstawiony na rysunku \ref{fig:kabelki}.
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=.8\textwidth]{./images/SchematIdeowy.png}
+\includegraphics[width=.75\textwidth]{./images/SchematIdeowy.png}
 \caption{Ideowy schemat połączeń na płytce \label{fig:kabelki}}
 \end{figure}
 
+\subsubsection{Interfejs Użytkownika}
+\begin{itemize}
+
+\item Do zmiany metody przesyłania danych wykorzystano przycisk umieszczony na płytce Discovery (niebieski). 
+\item Aktualna metoda przesyłania danych ukazana jest za pomocą trzech LEDów umieszczonych na płytce Discovery.
+\item Zrezygnowano z wizualizacji nacisku za pomoca diod RGB.
+\end{itemize}
 
 \subsection{Software}
-\subsubsection{Połączenie z komputerem}
-Płytka STM32F3DISCOVERY potrafi połączyć się z komputerem za pomocą interfejsu USB i UART. Zrezygnowano z połączenia za pomocą Bluetooth ze względu na zbyt małą szybkość przesyłania oraz niepoprawne funkcjonowanie modułu Bluetooth komputera.
+\subsubsection{Przetwornik Pomiarowy}
+\begin{itemize}
+\item Rozdzielczość przetwornika: 12 bitów
+\item Zakres pomiarowy: (0 -- 4095: int), (0 -- 3,3 V)
+\item Pomiar ciągły z wykorzystaniem DMA
+\item Czas próbkowania: 181,5 Cykli
+\item Częstotliwość zegara: 32 MHz
+\end{itemize}
+
+\subsubsection{Przesyłanie danych}
+\begin{itemize}
+\item Typ danych: float
+\item Sposób odbierania danych: COM Port
+\item Sposób kodowania wiadomości: ANSI
+\item Suma kontrolna: brak
+\item Struktura wiadomości: 1 linia danych
+\begin{itemize}
+\item Znak początku 'S'
+\item 15x float -- kąty obrotu przegubów palców $(\pm 180,0 ^\circ$)
+\item 5x int -- dane z czujników nacisku (0 -- 255)
+\item 3x float -- kąty obrotu parametryzacji Roll Pitch Yaw $(\pm 180,0^\circ$)
+\item 3x float -- przyśpieszenie w trzech osiach XYZ $(\pm 18 \frac{m}{s^2})$
+\item 10x float -- odczyty czujników ugięcia (0,0 -- 3,3 V)
+\item Znak końca 'R'
+\item Linia zakończona znakami \textbackslash r \textbackslash n
+\end{itemize}
+\end{itemize}
+Zrezygnowano ze szczegółowego opisu niskopoziomowego ramki danych, gdyż jest on obsługiwany przez dostępne biblioteki.
+\paragraph{Bluetooth (UART)}
+\begin{itemize}
+\item Baud Rate: 9600 b/s (115200 b/s)
+\item Długość słowa: 8 bit
+\item Parzystość: brak
+\item Bity stopu: 1
+\item Nadpróbkowanie: 16 próbek
+\item Wykorzystanie przerwań
+\end{itemize}
+\paragraph{USB}
+\begin{itemize}
+\item Szybkość: 12 Mb/s
+\item Maksymalna wielkość pakietu: 64 B
+\end{itemize}
+
 \subsubsection{Struktury danych}
 Dane z czujników są przechowywane w następujących strukturach:
 \begin{figure}[!htb]
@@ -364,19 +420,20 @@ typedef struct s_JointAngles
 \end{lstlisting}
 \end{figure}
 
+\newpage
 \subsubsection{Przetwarzanie danych}
-Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:\\\\
-\textbf{Dane z czujników nacisku:}
+Projekt umożliwia podglądanie następujących parametrów w programie STMStudio:
+\paragraph{Dane z czujników nacisku:}
 \begin{itemize}
 \item Wyrażone w woltach
 \item Zobrazowane za pomocą przestrzeni kolorów HSV
 \end{itemize}
-\textbf{Dane z czujników ugięcia:}
+\paragraph{Dane z czujników ugięcia:}
 \begin{itemize}
 \item Wyrażone w woltach
 \item Interpolowane liniowo na kąty w przegubach
 \end{itemize}
-\textbf{Dane z akcelerometru:}
+\paragraph{Dane z akcelerometru:}
 \begin{itemize}
 \item Wyrażone w $m/s^2$
 \end{itemize}
@@ -429,19 +486,19 @@ Aplikacja pozwala na wizualizację modelu ręki na podstawie odczytów z czujnik
 \end{figure}
 
 \subsubsection{Funkcjonalności aplikacji}
-Zostanie stworzona aplikacja okienkowa do wizualizacji napisana w języku C++ z użyciem biblioteki Qt.\\
+Aplikacja okienkowa do wizualizacji została napisana w języku C++ z użyciem biblioteki Qt.
 \begin{itemize}
-\item Wizualizacja poruszania modelem dłoni na podstawie odczytów z czujników i akcelerometru.
+\item Wizualizacja poruszania modelem dłoni na podstawie odczytów z czujników i akcelerometru
 \item Wybór opcji połączenia z rękawicą sensoryczną (Bluetooth, USB, UART)
-\item Uruchomienie i zatrzymanie pomiarów, wykonanie pojedynczego pomiaru.
-\item Skalowanie modelu dłoni poprzez wpisanie rozmiarów oraz suwak.
-\item Zmiana położenia i orientacji kamery z poziomu interfejsu graficznego.
-\item Zmiana rotacji modelu dłoni (RPY) poprzez suwaki interfejsu graficznego.
-\item Wyświetlanie liczbowo wyników pomiarów i możliwość zapisania ich do pliku.
-\item Wyświetlenie dynamicznego wykresu odczytu nacisku wybranego palca w czasie.
+\item Uruchomienie i zatrzymanie pomiarów, wykonanie pojedynczego pomiaru
+\item Skalowanie modelu dłoni poprzez suwak lub wpisanie rozmiarów
+\item Zmiana położenia i orientacji kamery z poziomu interfejsu graficznego
+\item Zmiana rotacji modelu dłoni (RPY) poprzez suwaki interfejsu graficznego
+\item Wyświetlanie liczbowo wyników pomiarów i możliwość zapisania ich do pliku
+\item Wyświetlenie dynamicznego wykresu odczytu nacisku wybranego palca w czasie
 \end{itemize}
 
-
+\vspace*{2cm}
 \begin{figure}[htb!]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -468,16 +525,20 @@ Rękawica sensoryczna pozwala na zbieranie pomiarów i próbę jak najdokładnie
 Identyfikacja gestów sprowadza się do ustawienia odpowiednich progów na niektórych czujnikach ugięcia i nacisku, po których przekroczeniu sygnalizuje się wykrycie gestu.
 
 \subsection{Dane pomiarowe}
-Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach \ref{fig:term}., \ref{fig:stmstudio}.\\
+Zbadano poprawność pozyskiwania i wysyłania danych pomiarowych za pomocą terminala (Realterm) oraz programu STMStudio. Wyniki przedstawiono na rysunkach \ref{fig:term}. i \ref{fig:stmstudio}.
+
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./images/terminal.png}
-\caption{Wysyłane dane wyświetlone na terminalu \label{fig:term}}
+\includegraphics[width=0.9\textwidth]{./images/terminal.png}
+\caption{Wysyłane dane wyświetlone na terminalu}
+\label{fig:term}
 \end{figure}
+
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{./images/stmstudio.png}
-\caption{Pobierane dane wyświetlone w STMStudio\label{fig:stmstudio}}
+\includegraphics[width=0.9\textwidth]{./images/stmstudio.png}
+\caption{Pobierane dane wyświetlone w STMStudio}
+\label{fig:stmstudio}
 \end{figure}
 
 \subsection{Przykładowe gesty i metoda ich identyfikacji}
@@ -492,62 +553,70 @@ Kąty w przegubach kciuka oraz palców wskazującego i środkowego nie przekracz
 \paragraph{Wskazywanie palcem}
 Kąty w przegubach kciuka oraz palców środkowego, serdecznego i małego przekraczają określoną wartość. Kąty w przegubach palców wskazującego i kciuka nie przekraczają określonej wartości. (rys. \ref{fig:Point})
 
-
+\vspace*{1cm}
 \begin{figure}[!htb]
 \centering
-    \begin{subfigure}{.5\textwidth}
-    \centering
-      \includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
-     \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-    \centering
-      \includegraphics[width=0.9\textwidth]{./images/FistQt.png}
-     \end{subfigure}
-    \caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/Fist.jpg}
+	\end{subfigure}%
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/FistQt.png}
+	\end{subfigure}
+\caption{Gest -- zaciśnięta pięść \label{fig:Fist}}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
-     \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
-     \end{subfigure}
-    \caption{Gest -- otwarta dłoń \label{fig:Palm}}
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/Palm.jpg}
+	\end{subfigure}%
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/PalmQt.png}
+	\end{subfigure}
+\caption{Gest -- otwarta dłoń \label{fig:Palm}}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/OK.jpg}
-     \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/OKQt.png}
-     \end{subfigure}
-    \caption{Gest -- OK \label{fig:OK}}
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/OK.jpg}
+	\end{subfigure}%
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/OKQt.png}
+	\end{subfigure}
+\caption{Gest -- OK \label{fig:OK}}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
-     \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
-     \end{subfigure}
-    \caption{Gest -- pacyfka\label{fig:Peace}}
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/Peace.jpg}
+	\end{subfigure}%
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/PeaceQt.png}
+	\end{subfigure}
+\caption{Gest -- pacyfka\label{fig:Peace}}
 \end{figure}
 
 \begin{figure}[!htb]
 \centering
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/Point.jpg}
-     \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \includegraphics[width=0.9\textwidth]{./images/PointQt.png}
-     \end{subfigure}
-    \caption{Gest -- wskazywanie palcem \label{fig:Point}}
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/Point.jpg}
+	\end{subfigure}%
+	\begin{subfigure}{.47\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./images/PointQt.png}
+	\end{subfigure}
+\caption{Gest -- wskazywanie palcem \label{fig:Point}}
 \end{figure}
 
 \newpage
